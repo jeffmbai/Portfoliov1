@@ -5,27 +5,17 @@ import { motion } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
 import { Card, CardContent } from "./ui/card"
 import { Badge } from "./ui/badge"
+import type { Project } from "../lib/types"
 
 interface ProjectCardProps {
-  title: string
-  description: string
-  image: string
-  tags: string[]
-  demoUrl?: string
-  githubUrl?: string
-  featured?: boolean
+  project: Project
 }
 
-export default function ProjectCard({
-  title,
-  description,
-  image,
-  tags,
-  demoUrl,
-  githubUrl,
-  featured = false,
-}: ProjectCardProps) {
+export default function ProjectCard({ project }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+
+  // Generate a query for the placeholder image based on the project title and category
+  const imageQuery = `${project.title} ${project.category} app screenshot`
 
   return (
     <motion.div
@@ -35,41 +25,37 @@ export default function ProjectCard({
       className="h-full"
     >
       <Card
-        className={`overflow-hidden h-full bg-gray-900/50 backdrop-blur-sm border-gray-800 ${
-          featured ? "border-purple-500/30" : ""
-        }`}
+        className="overflow-hidden h-full bg-gray-900/50 backdrop-blur-sm border-gray-800"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div className="relative overflow-hidden aspect-video">
           <img
-            src={image || "/placeholder.svg"}
-            alt={title}
+            src={`/placeholder.svg?height=400&width=600&query=${imageQuery}`}
+            alt={project.title}
             className="w-full h-full object-cover transition-transform duration-500 ease-in-out"
             style={{
               transform: isHovered ? "scale(1.05)" : "scale(1)",
             }}
           />
-          {featured && (
-            <div className="absolute top-2 right-2">
-              <Badge className="bg-purple-600 text-white">Featured</Badge>
-            </div>
-          )}
+          <div className="absolute bottom-2 right-2">
+            <Badge className="bg-gray-900/70 text-white border-gray-700">{project.category}</Badge>
+          </div>
         </div>
         <CardContent className="p-5">
-          <h3 className="text-xl font-semibold mb-2">{title}</h3>
-          <p className="text-gray-400 text-sm mb-4">{description}</p>
+          <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+          <p className="text-gray-400 text-sm mb-4 line-clamp-3">{project.description}</p>
           <div className="flex flex-wrap gap-2 mb-4">
-            {tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="bg-gray-800/50 text-gray-300 border-gray-700 text-xs">
-                {tag}
+            {project.technologies.map((tech) => (
+              <Badge key={tech} variant="outline" className="bg-gray-800/50 text-gray-300 border-gray-700 text-xs">
+                {tech}
               </Badge>
             ))}
           </div>
           <div className="flex space-x-3">
-            {demoUrl && (
+            {project.link && (
               <a
-                href={demoUrl}
+                href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm flex items-center text-purple-400 hover:text-purple-300 transition-colors"
@@ -77,16 +63,14 @@ export default function ProjectCard({
                 <ExternalLink className="h-4 w-4 mr-1" /> Demo
               </a>
             )}
-            {githubUrl && (
-              <a
-                href={githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm flex items-center text-blue-400 hover:text-blue-300 transition-colors"
-              >
-                <Github className="h-4 w-4 mr-1" /> Code
-              </a>
-            )}
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              <Github className="h-4 w-4 mr-1" /> Code
+            </a>
           </div>
         </CardContent>
       </Card>

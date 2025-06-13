@@ -65,25 +65,25 @@ export default function SkillsSection() {
               <TabsList className="bg-gray-900/50 backdrop-blur-sm border border-gray-800">
                 <TabsTrigger
                   value="frontend"
-                  className={`data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 data-[state=active]:shadow-none`}
+                  className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 data-[state=active]:shadow-none"
                 >
                   Frontend
                 </TabsTrigger>
                 <TabsTrigger
                   value="mobile"
-                  className={`data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-300 data-[state=active]:shadow-none`}
+                  className="data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-300 data-[state=active]:shadow-none"
                 >
                   Mobile
                 </TabsTrigger>
                 <TabsTrigger
                   value="backend"
-                  className={`data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-300 data-[state=active]:shadow-none`}
+                  className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-300 data-[state=active]:shadow-none"
                 >
                   Backend
                 </TabsTrigger>
                 <TabsTrigger
                   value="tools"
-                  className={`data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-300 data-[state=active]:shadow-none`}
+                  className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-300 data-[state=active]:shadow-none"
                 >
                   Tools
                 </TabsTrigger>
@@ -169,3 +169,40 @@ interface SkillsTabProps {
 }
 
 function SkillsTab({ skills, color }: SkillsTabProps) {
+  const getColorClasses = (color: string) => {
+    switch (color) {
+      case "purple":
+        return "bg-purple-500/20 text-purple-300"
+      case "blue":
+        return "bg-blue-500/20 text-blue-300"
+      case "emerald":
+        return "bg-emerald-500/20 text-emerald-300"
+      case "amber":
+        return "bg-amber-500/20 text-amber-300"
+      default:
+        return "bg-purple-500/20 text-purple-300"
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      {skills.map((skill) => (
+        <div key={skill.name} className="space-y-2">
+          <div className="flex justify-between">
+            <span className="font-medium">{skill.name}</span>
+            <span className="text-gray-400">{skill.level}%</span>
+          </div>
+          <div className="w-full bg-gray-800 rounded-full h-2.5">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: `${skill.level}%` }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className={`h-2.5 rounded-full ${getColorClasses(color)}`}
+            ></motion.div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
