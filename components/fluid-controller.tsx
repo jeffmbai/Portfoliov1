@@ -24,14 +24,14 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
   })
 
   const togglePause = () => {
-    if (!fluidInstance) return
+    if (!fluidInstance || !fluidInstance.simulation) return
 
-    fluidInstance.PAUSED = !fluidInstance.PAUSED
-    setIsPaused(fluidInstance.PAUSED)
+    fluidInstance.simulation.PAUSED = !fluidInstance.simulation.PAUSED
+    setIsPaused(fluidInstance.simulation.PAUSED)
   }
 
   const createSplats = () => {
-    if (!fluidInstance) return
+    if (!fluidInstance || !fluidInstance.simulation) return
 
     // Create multiple splats at random positions
     for (let i = 0; i < 5; i++) {
@@ -44,31 +44,31 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
         g: Math.random() * 0.5 + 0.5,
         b: Math.random() * 0.5 + 0.5,
       }
-      fluidInstance.splat(x, y, dx, dy, color)
+      fluidInstance.simulation.splat(x, y, dx, dy, color)
     }
   }
 
   const updateConfig = (key: string, value: number | boolean) => {
     setConfig((prev) => ({ ...prev, [key]: value }))
 
-    if (!fluidInstance) return
+    if (!fluidInstance || !fluidInstance.simulation) return
 
     // Update the configuration
     switch (key) {
       case "curl":
-        fluidInstance.CURL = value
+        fluidInstance.simulation.CURL = value
         break
       case "density":
-        fluidInstance.DENSITY_DISSIPATION = value
+        fluidInstance.simulation.DENSITY_DISSIPATION = value
         break
       case "velocity":
-        fluidInstance.VELOCITY_DISSIPATION = value
+        fluidInstance.simulation.VELOCITY_DISSIPATION = value
         break
       case "bloom":
-        fluidInstance.BLOOM = value
+        fluidInstance.simulation.BLOOM = value
         break
       case "sunrays":
-        fluidInstance.SUNRAYS = value
+        fluidInstance.simulation.SUNRAYS = value
         break
     }
   }

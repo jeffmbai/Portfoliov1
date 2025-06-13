@@ -53,12 +53,13 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
     try {
       // Initialize the WebGLFluidEnhanced
-      fluidInstanceRef.current = new WebGLFluidEnhanced(canvas, config)
+      const fluidInstance = new WebGLFluidEnhanced(canvas, config)
+      fluidInstanceRef.current = fluidInstance
       isInitializedRef.current = true
 
-      // Create initial splats
+      // Create initial splats using the simulation method
       setTimeout(() => {
-        if (fluidInstanceRef.current) {
+        if (fluidInstanceRef.current && fluidInstanceRef.current.simulation) {
           for (let i = 0; i < 3; i++) {
             const x = Math.random() * canvas.width
             const y = Math.random() * canvas.height
@@ -69,7 +70,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
               g: Math.random() * 0.5 + 0.5,
               b: Math.random() * 0.5 + 0.5,
             }
-            fluidInstanceRef.current.splat(x, y, dx, dy, color)
+            fluidInstanceRef.current.simulation.splat(x, y, dx, dy, color)
           }
         }
       }, 100)
@@ -85,7 +86,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       let lastTime = 0
 
       const handleMouseMove = (e: MouseEvent) => {
-        if (!fluidInstanceRef.current) return
+        if (!fluidInstanceRef.current || !fluidInstanceRef.current.simulation) return
 
         const now = Date.now()
         if (now - lastTime < 16) return // Limit to ~60 fps
@@ -107,7 +108,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
           b: Math.random() * 0.5 + 0.5,
         }
 
-        fluidInstanceRef.current.splat(x, y, dx, dy, color)
+        fluidInstanceRef.current.simulation.splat(x, y, dx, dy, color)
       }
 
       window.addEventListener("mousemove", handleMouseMove)
