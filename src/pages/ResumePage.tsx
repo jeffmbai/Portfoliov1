@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Download, Briefcase, GraduationCap, Award, Code } from "lucide-react"
+import { Download, Briefcase, GraduationCap, Code } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Card, CardContent } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
@@ -50,9 +50,7 @@ export default function ResumePage() {
                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
                       <h3 className="text-xl font-semibold">Senior Frontend Developer</h3>
                       <div className="mt-2 md:mt-0">
-                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">
-                          2021 - Present
-                        </Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">2021 - Present</Badge>
                       </div>
                     </div>
                     <p className="text-gray-400 mb-4">TechCorp Inc.</p>
@@ -261,73 +259,4 @@ export default function ResumePage() {
                         <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Azure</Badge>
                         <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">AWS</Badge>
                         <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Testing</Badge>
-                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Agile</Badge>
-                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Figma</Badge>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.section>
-
-            {/* Certifications Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <div className="flex items-center mb-6">
-                <Award className="h-6 w-6 mr-3 text-amber-500" />
-                <h2 className="text-2xl font-bold">Certifications</h2>
-              </div>
-
-              <div className="space-y-4">
-                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
-                  <CardContent className="p-6">
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-                      <div>
-                        <h3 className="text-xl font-semibold">AWS Certified Developer</h3>
-                        <p className="text-gray-400">Amazon Web Services</p>
-                      </div>
-                      <div className="mt-2 md:mt-0">
-                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">2022</Badge>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
-                  <CardContent className="p-6">
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-                      <div>
-                        <h3 className="text-xl font-semibold">Microsoft Certified: Azure Developer Associate</h3>
-                        <p className="text-gray-400">Microsoft</p>
-                      </div>
-                      <div className="mt-2 md:mt-0">
-                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">2021</Badge>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
-                  <CardContent className="p-6">
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-                      <div>
-                        <h3 className="text-xl font-semibold">React Native Specialist</h3>
-                        <p className="text-gray-400">Meta (formerly Facebook)</p>
-                      </div>
-                      <div className="mt-2 md:mt-0">
-                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">2020</Badge>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </motion.section>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+                        <Badge className="bg-amber\

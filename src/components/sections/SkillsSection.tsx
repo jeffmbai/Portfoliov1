@@ -1,179 +1,171 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs"
 
 export default function SkillsSection() {
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  const [activeTab, setActiveTab] = useState("frontend")
+
+  const skills = {
+    frontend: [
+      { name: "React", level: 90 },
+      { name: "TypeScript", level: 85 },
+      { name: "JavaScript", level: 95 },
+      { name: "HTML/CSS", level: 90 },
+      { name: "Tailwind CSS", level: 85 },
+      { name: "Redux", level: 80 },
+      { name: "Next.js", level: 75 },
+    ],
+    mobile: [
+      { name: "React Native", level: 85 },
+      { name: "Expo", level: 80 },
+      { name: "iOS Development", level: 70 },
+      { name: "Android Development", level: 65 },
+      { name: "Mobile UI/UX", level: 75 },
+    ],
+    backend: [
+      { name: "Node.js", level: 75 },
+      { name: "Express", level: 70 },
+      { name: "Flask", level: 65 },
+      { name: "C#/.NET", level: 60 },
+      { name: "RESTful APIs", level: 80 },
+      { name: "GraphQL", level: 65 },
+    ],
+    tools: [
+      { name: "Git", level: 90 },
+      { name: "Docker", level: 70 },
+      { name: "CI/CD", level: 75 },
+      { name: "Jest/Testing", level: 80 },
+      { name: "Figma", level: 65 },
+      { name: "VS Code", level: 95 },
+    ],
   }
 
-  const skillCategories = [
-    {
-      id: "frontend",
-      title: "Frontend",
-      skills: [
-        { name: "React", level: 95 },
-        { name: "TypeScript", level: 90 },
-        { name: "JavaScript", level: 95 },
-        { name: "HTML/CSS", level: 95 },
-        { name: "Tailwind CSS", level: 90 },
-        { name: "Next.js", level: 85 },
-        { name: "Redux", level: 85 },
-        { name: "Framer Motion", level: 80 },
-      ],
-    },
-    {
-      id: "mobile",
-      title: "Mobile",
-      skills: [
-        { name: "React Native", level: 90 },
-        { name: "Expo", level: 85 },
-        { name: "iOS Development", level: 75 },
-        { name: "Android Development", level: 75 },
-        { name: "Mobile UI/UX", level: 85 },
-        { name: "App Performance", level: 80 },
-        { name: "Push Notifications", level: 75 },
-        { name: "Offline Storage", level: 80 },
-      ],
-    },
-    {
-      id: "backend",
-      title: "Backend",
-      skills: [
-        { name: "Node.js", level: 80 },
-        { name: "Express", level: 80 },
-        { name: "Flask", level: 75 },
-        { name: "C#", level: 70 },
-        { name: ".NET", level: 70 },
-        { name: "RESTful APIs", level: 85 },
-        { name: "GraphQL", level: 75 },
-        { name: "Microservices", level: 70 },
-      ],
-    },
-    {
-      id: "tools",
-      title: "Tools & Others",
-      skills: [
-        { name: "Git", level: 90 },
-        { name: "Docker", level: 75 },
-        { name: "CI/CD", level: 80 },
-        { name: "Azure", level: 75 },
-        { name: "Firebase", level: 85 },
-        { name: "MongoDB", level: 80 },
-        { name: "SQL", level: 75 },
-        { name: "Testing", level: 80 },
-      ],
-    },
-  ]
-
   return (
-    <section id="skills" className="py-24 bg-black relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-700 blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-700 blur-[100px]" />
-      </div>
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+    <section id="skills" className="py-20 bg-gradient-to-b from-black to-gray-900">
+      <div className="container mx-auto px-4 md:px-6">
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={fadeIn}
-          className="text-center mb-16"
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl mx-auto mb-12 text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">My Skills</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8"></div>
-          <p className="max-w-2xl mx-auto text-gray-300 text-lg">
-            I've developed a diverse skill set across frontend, mobile, and backend technologies. Here's a breakdown of
-            my technical expertise and proficiency levels.
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">My Skills</h2>
+          <p className="text-gray-400 md:text-lg">
+            I've developed expertise in various technologies and tools throughout my career. Here's a breakdown of my
+            technical skills.
           </p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6 md:p-8"
-        >
-          <Tabs defaultValue="frontend" className="w-full">
-            <TabsList className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8 bg-transparent">
-              {skillCategories.map((category) => (
+        <div className="max-w-4xl mx-auto">
+          <Tabs defaultValue="frontend" className="w-full" onValueChange={setActiveTab}>
+            <div className="flex justify-center mb-8">
+              <TabsList className="bg-gray-900/50 backdrop-blur-sm border border-gray-800">
                 <TabsTrigger
-                  key={category.id}
-                  value={category.id}
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border-0 border border-gray-700 bg-gray-800/50"
+                  value="frontend"
+                  className={`data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 data-[state=active]:shadow-none`}
                 >
-                  {category.title}
+                  Frontend
                 </TabsTrigger>
-              ))}
-            </TabsList>
+                <TabsTrigger
+                  value="mobile"
+                  className={`data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-300 data-[state=active]:shadow-none`}
+                >
+                  Mobile
+                </TabsTrigger>
+                <TabsTrigger
+                  value="backend"
+                  className={`data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-300 data-[state=active]:shadow-none`}
+                >
+                  Backend
+                </TabsTrigger>
+                <TabsTrigger
+                  value="tools"
+                  className={`data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-300 data-[state=active]:shadow-none`}
+                >
+                  Tools
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
-            {skillCategories.map((category) => (
-              <TabsContent key={category.id} value={category.id} className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {category.skills.map((skill, index) => (
-                    <div key={skill.name} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{skill.name}</span>
-                        <span className="text-xs text-gray-400">{skill.level}%</span>
-                      </div>
-                      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          transition={{ duration: 1, delay: index * 0.1 }}
-                          viewport={{ once: true }}
-                          className="h-full rounded-full bg-gradient-to-r from-purple-600 to-blue-600"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </TabsContent>
-            ))}
+            <TabsContent value="frontend" className="mt-0">
+              <SkillsTab skills={skills.frontend} color="purple" />
+            </TabsContent>
+
+            <TabsContent value="mobile" className="mt-0">
+              <SkillsTab skills={skills.mobile} color="blue" />
+            </TabsContent>
+
+            <TabsContent value="backend" className="mt-0">
+              <SkillsTab skills={skills.backend} color="emerald" />
+            </TabsContent>
+
+            <TabsContent value="tools" className="mt-0">
+              <SkillsTab skills={skills.tools} color="amber" />
+            </TabsContent>
           </Tabs>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-center"
-        >
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
-            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-2">
-              5+
-            </div>
-            <p className="text-gray-400">Years of Experience</p>
-          </div>
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6"
+          >
+            <div className="text-4xl font-bold mb-2 text-purple-400">5+</div>
+            <div className="text-gray-400">Years of Experience</div>
+          </motion.div>
 
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
-            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 mb-2">
-              30+
-            </div>
-            <p className="text-gray-400">Projects Completed</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6"
+          >
+            <div className="text-4xl font-bold mb-2 text-blue-400">30+</div>
+            <div className="text-gray-400">Projects Completed</div>
+          </motion.div>
 
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
-            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-amber-400 mb-2">
-              15+
-            </div>
-            <p className="text-gray-400">Happy Clients</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6"
+          >
+            <div className="text-4xl font-bold mb-2 text-emerald-400">15+</div>
+            <div className="text-gray-400">Technologies</div>
+          </motion.div>
 
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
-            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-rose-400 mb-2">
-              10+
-            </div>
-            <p className="text-gray-400">Technologies Mastered</p>
-          </div>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6"
+          >
+            <div className="text-4xl font-bold mb-2 text-amber-400">10+</div>
+            <div className="text-gray-400">Happy Clients</div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )
 }
+
+interface Skill {
+  name: string
+  level: number
+}
+
+interface SkillsTabProps {
+  skills: Skill[]
+  color: "purple" | "blue" | "emerald" | "amber"
+}
+
+function SkillsTab({ skills, color }: SkillsTabProps) {
