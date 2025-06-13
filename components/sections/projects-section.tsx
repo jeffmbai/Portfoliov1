@@ -28,12 +28,8 @@ export default function ProjectsSection() {
   }
 
   return (
-    <section id="projects" className="py-24 bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
-        <div className="absolute top-1/3 right-1/3 w-64 h-64 rounded-full bg-blue-700 blur-[100px]" />
-        <div className="absolute bottom-1/3 left-1/3 w-64 h-64 rounded-full bg-purple-700 blur-[100px]" />
-      </div>
+    <section id="projects" className="py-24 relative z-10">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
@@ -59,7 +55,7 @@ export default function ProjectsSection() {
               size="sm"
               onClick={() => setActiveCategory(category)}
               className={cn(
-                "border-gray-700 hover:border-purple-500/50 transition-all duration-300",
+                "border-gray-700 hover:border-purple-500/50 transition-all duration-300 backdrop-blur-sm",
                 activeCategory === category
                   ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-purple-500/50 text-white"
                   : "bg-transparent text-gray-400 hover:text-white",
@@ -75,7 +71,7 @@ export default function ProjectsSection() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full bg-black/50 border-gray-700 hover:bg-black/80 hover:border-purple-500/50"
+              className="rounded-full bg-black/50 border-gray-700 hover:bg-black/80 hover:border-purple-500/50 backdrop-blur-sm"
               onClick={() => scroll("left")}
             >
               <ChevronLeft className="h-5 w-5" />
@@ -109,7 +105,7 @@ export default function ProjectsSection() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full bg-black/50 border-gray-700 hover:bg-black/80 hover:border-purple-500/50"
+              className="rounded-full bg-black/50 border-gray-700 hover:bg-black/80 hover:border-purple-500/50 backdrop-blur-sm"
               onClick={() => scroll("right")}
             >
               <ChevronRight className="h-5 w-5" />
