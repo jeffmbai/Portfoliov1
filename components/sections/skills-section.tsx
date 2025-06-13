@@ -51,8 +51,12 @@ const devopsSkills = [
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="py-24 relative z-10">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
+    <section id="skills" className="py-24 bg-black relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-700 blur-[100px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-700 blur-[100px]" />
+      </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
@@ -77,7 +81,7 @@ export default function SkillsSection() {
         >
           <Tabs defaultValue="frontend" className="w-full">
             <div className="flex justify-center mb-8">
-              <TabsList className="bg-gray-900/50 backdrop-blur-sm border border-gray-800">
+              <TabsList className="bg-gray-900/50 border border-gray-800">
                 <TabsTrigger
                   value="frontend"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600/20 data-[state=active]:to-blue-600/20 data-[state=active]:text-white"
@@ -111,7 +115,7 @@ export default function SkillsSection() {
               </TabsList>
             </div>
 
-            <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800">
+            <Card className="bg-gray-900/30 border-gray-800">
               <CardContent className="p-6">
                 <TabsContent value="frontend" className="mt-0">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

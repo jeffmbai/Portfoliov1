@@ -45,8 +45,12 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-24 relative z-10">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
+    <section id="contact" className="py-24 bg-black relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
+        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-purple-700 blur-[150px]" />
+        <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-blue-700 blur-[150px]" />
+      </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
@@ -72,7 +76,7 @@ export default function ContactSection() {
             className="lg:col-span-1"
           >
             <div className="space-y-6">
-              <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-purple-500/30 transition-all duration-300">
+              <Card className="bg-gray-900/30 border-gray-800 hover:border-purple-500/30 transition-all duration-300">
                 <CardContent className="p-6 flex items-center">
                   <div className="w-14 h-14 flex items-center justify-center rounded-full bg-purple-500/20 mr-4">
                     <Mail className="h-6 w-6 text-purple-400" />
@@ -84,7 +88,7 @@ export default function ContactSection() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-blue-500/30 transition-all duration-300">
+              <Card className="bg-gray-900/30 border-gray-800 hover:border-blue-500/30 transition-all duration-300">
                 <CardContent className="p-6 flex items-center">
                   <div className="w-14 h-14 flex items-center justify-center rounded-full bg-blue-500/20 mr-4">
                     <Phone className="h-6 w-6 text-blue-400" />
@@ -96,7 +100,7 @@ export default function ContactSection() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-emerald-500/30 transition-all duration-300">
+              <Card className="bg-gray-900/30 border-gray-800 hover:border-emerald-500/30 transition-all duration-300">
                 <CardContent className="p-6 flex items-center">
                   <div className="w-14 h-14 flex items-center justify-center rounded-full bg-emerald-500/20 mr-4">
                     <MapPin className="h-6 w-6 text-emerald-400" />
@@ -167,7 +171,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="lg:col-span-2"
           >
-            <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 overflow-hidden">
+            <Card className="bg-gray-900/30 border-gray-800 overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 to-blue-600"></div>
               <CardContent className="p-6">
                 {isSubmitted ? (

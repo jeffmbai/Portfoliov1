@@ -1,8 +1,10 @@
 import type React from "react"
+import "@/app/globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
   title: "Software Engineer Portfolio",
   description: "Personal portfolio showcasing frontend and mobile development expertise",
   manifest: "/manifest.json",
-  generator: "v0.dev",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -23,7 +25,9 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen bg-black text-white`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <Header />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

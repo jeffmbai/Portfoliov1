@@ -10,6 +10,7 @@ interface FluidBackgroundProps {
 // Import the fluid background component with SSR disabled
 const ClientFluidBackground = dynamic(() => import("./client-fluid-background"), {
   ssr: false,
+  loading: () => <BackgroundPlaceholder />,
 })
 
 // Simple placeholder while the WebGL component loads

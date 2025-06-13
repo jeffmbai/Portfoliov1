@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import WebGLFluidEnhanced from "webgl-fluid-enhanced"
+import { useEffect, useRef, useState } from "react"
+import webGLFluidEnhanced from "webgl-fluid-enhanced"
 
 interface ClientFluidBackgroundProps {
   onInstanceReady?: (instance: any) => void
@@ -9,158 +9,113 @@ interface ClientFluidBackgroundProps {
 
 export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const isInitializedRef = useRef<boolean>(false)
-  const fluidInstanceRef = useRef<any>(null)
+  const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
-    if (!canvasRef.current || isInitializedRef.current) return
+    if (!canvasRef.current) return
 
-    const canvas = canvasRef.current
-
-    // Set canvas to full screen
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-
-    resizeCanvas()
-    window.addEventListener("resize", resizeCanvas)
-
-    // Configuration for the fluid simulation
+    // Initialize the simulation with the canvas element
     const config = {
-      SIM_RESOLUTION: 128,
-      DYE_RESOLUTION: 1024,
-      DENSITY_DISSIPATION: 0.97,
-      VELOCITY_DISSIPATION: 0.98,
-      PRESSURE_ITERATIONS: 20,
-      CURL: 30,
-      SPLAT_RADIUS: 0.5,
-      SHADING: true,
-      COLORFUL: true,
-      PAUSED: false,
-      BACK_COLOR: { r: 0, g: 0, b: 0 },
-      TRANSPARENT: true,
-      BLOOM: true,
-      BLOOM_ITERATIONS: 8,
-      BLOOM_RESOLUTION: 256,
-      BLOOM_INTENSITY: 0.8,
-      BLOOM_THRESHOLD: 0.6,
-      BLOOM_SOFT_KNEE: 0.7,
-      SUNRAYS: true,
-      SUNRAYS_RESOLUTION: 196,
-      SUNRAYS_WEIGHT: 1.0,
+      // Core simulation settings from user request
+      pressureIterations: 10,
+      curl: 10,
+      transparent: true,
+      brightness: 0.1,
+      bloomIntensity: 0.1,
+
+      // Additional settings for better visual appeal
+      simResolution: 128,
+      dyeResolution: 1024,
+      densityDissipation: 0.97,
+      velocityDissipation: 0.98,
+      pressure: 0.8,
+      splatRadius: 0.6,
+      splatForce: 6000,
+      shading: true,
+      colorful: true,
+      colorUpdateSpeed: 10,
+      colorPalette: ["#5f2c82", "#49a09d", "#5D26C1", "#a17fe0", "#59C173"],
+      hover: true,
+      bloom: true,
+      bloomIterations: 8,
+      bloomResolution: 256,
+      bloomThreshold: 0.6,
+      bloomSoftKnee: 0.7,
+      sunrays: true,
+      sunraysResolution: 196,
+      sunraysWeight: 1.0,
     }
 
-    try {
-      // Initialize the WebGLFluidEnhanced using the constructor
-      fluidInstanceRef.current = new WebGLFluidEnhanced(canvas, config)
-      isInitializedRef.current = true
+    // Initialize the simulation
+    webGLFluidEnhanced.simulation(canvasRef.current, config)
+    setIsInitialized(true)
 
-      // Notify parent component
-      if (onInstanceReady) {
-        onInstanceReady(fluidInstanceRef.current)
+    // Expose the fluid instance to the parent component
+    if (onInstanceReady) {
+      onInstanceReady(webGLFluidEnhanced)
+    }
+
+    // Create initial splats for visual interest when page loads
+    setTimeout(() => {
+      for (let i = 0; i < 5; i++) {
+        const x = Math.random() * window.innerWidth
+        const y = Math.random() * window.innerHeight
+        const dx = (Math.random() - 0.5) * 10
+        const dy = (Math.random() - 0.5) * 10
+        const color = getRandomColorFromPalette()
+        webGLFluidEnhanced.splat(x, y, dx, dy, color)
       }
+    }, 200)
 
-      // Create initial splats
-      setTimeout(() => {
-        createRandomSplats(5)
-      }, 100)
+    // Handle mouse movement to create splats
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isInitialized) return
 
-      // Handle mouse movement
-      let lastX = 0
-      let lastY = 0
-      let lastTime = 0
+      // Calculate velocity based on mouse movement
+      const x = e.clientX
+      const y = e.clientY
 
-      const handleMouseMove = (e: MouseEvent) => {
-        const now = Date.now()
-        if (now - lastTime < 16) return // Limit to ~60 fps
+      // Create a splat at the mouse position with random color
+      const randomColor = getRandomColorFromPalette()
+      webGLFluidEnhanced.splat(x, y, 0, 0, randomColor)
+    }
 
-        // Get mouse position relative to canvas
-        const rect = canvas.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
-
-        // Calculate velocity based on movement
-        const dx = (x - lastX) * 0.1
-        const dy = (y - lastY) * 0.1
-
-        lastX = x
-        lastY = y
+    // Add throttled mouse move event listener
+    let lastTime = 0
+    const throttledMouseMove = (e: MouseEvent) => {
+      const now = Date.now()
+      if (now - lastTime > 50) {
+        // Throttle to 50ms
         lastTime = now
-
-        const color = {
-          r: Math.random() * 0.5 + 0.5,
-          g: Math.random() * 0.5 + 0.5,
-          b: Math.random() * 0.5 + 0.5,
-        }
-
-        try {
-          // Try different methods to create splats
-          if (fluidInstanceRef.current) {
-            // Method 1: Try direct property access
-            if (typeof fluidInstanceRef.current.addSplat === "function") {
-              fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
-            }
-            // Method 2: Try accessing through config
-            else if (
-              fluidInstanceRef.current.config &&
-              typeof fluidInstanceRef.current.config.addSplat === "function"
-            ) {
-              fluidInstanceRef.current.config.addSplat(x, y, dx, dy, color)
-            }
-            // Method 3: Try using the splat method directly
-            else if (typeof fluidInstanceRef.current.splat === "function") {
-              fluidInstanceRef.current.splat(x, y, dx, dy, color)
-            }
-          }
-        } catch (error) {
-          console.error("Error adding splat:", error)
-        }
+        handleMouseMove(e)
       }
+    }
 
-      // Function to create random splats
-      function createRandomSplats(count: number) {
-        if (!fluidInstanceRef.current) return
+    window.addEventListener("mousemove", throttledMouseMove)
 
-        for (let i = 0; i < count; i++) {
-          const x = Math.random() * canvas.width
-          const y = Math.random() * canvas.height
-          const dx = (Math.random() - 0.5) * 10
-          const dy = (Math.random() - 0.5) * 10
-          const color = {
-            r: Math.random() * 0.5 + 0.5,
-            g: Math.random() * 0.5 + 0.5,
-            b: Math.random() * 0.5 + 0.5,
-          }
-
-          try {
-            // Try different methods to create splats
-            if (typeof fluidInstanceRef.current.addSplat === "function") {
-              fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
-            } else if (
-              fluidInstanceRef.current.config &&
-              typeof fluidInstanceRef.current.config.addSplat === "function"
-            ) {
-              fluidInstanceRef.current.config.addSplat(x, y, dx, dy, color)
-            } else if (typeof fluidInstanceRef.current.splat === "function") {
-              fluidInstanceRef.current.splat(x, y, dx, dy, color)
-            }
-          } catch (error) {
-            console.error("Error creating random splat:", error)
-          }
-        }
+    // Handle window resize
+    const handleResize = () => {
+      if (canvasRef.current) {
+        canvasRef.current.width = window.innerWidth
+        canvasRef.current.height = window.innerHeight
       }
+    }
 
-      window.addEventListener("mousemove", handleMouseMove)
+    window.addEventListener("resize", handleResize)
+    handleResize()
 
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove)
-        window.removeEventListener("resize", resizeCanvas)
-      }
-    } catch (error) {
-      console.error("Error initializing WebGL fluid:", error)
+    // Cleanup
+    return () => {
+      window.removeEventListener("mousemove", throttledMouseMove)
+      window.removeEventListener("resize", handleResize)
     }
   }, [onInstanceReady])
 
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" />
+  // Helper function to get a random color from our palette
+  const getRandomColorFromPalette = () => {
+    const palette = ["#5f2c82", "#49a09d", "#5D26C1", "#a17fe0", "#59C173"]
+    return palette[Math.floor(Math.random() * palette.length)]
+  }
+
+  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 opacity-80" />
 }
