@@ -53,8 +53,8 @@ export default function ContactSection() {
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Get In Touch</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8"></div>
           <p className="max-w-2xl mx-auto text-gray-300 text-lg">
-            Have a project in mind or want to discuss potential opportunities? I'd love to hear from you. Fill out the
-            form below or reach out directly through any of the provided contact methods.
+            Have a project in mind or want to discuss potential opportunities? I would love to hear from you. Fill out
+            the form below or reach out directly through any of the provided contact methods.
           </p>
         </motion.div>
 
@@ -147,7 +147,7 @@ export default function ContactSection() {
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold mb-4">Availability</h3>
                   <p className="text-gray-300">
-                    I'm currently available for freelance work and open to discussing new opportunities. My typical
+                    I am currently available for freelance work and open to discussing new opportunities. My typical
                     response time is within 24 hours.
                   </p>
                 </CardContent>
@@ -180,7 +180,7 @@ export default function ContactSection() {
                     </div>
                     <h4 className="text-xl font-semibold mb-2">Message Sent!</h4>
                     <p className="text-gray-300">
-                      Thank you for reaching out. I'll get back to you as soon as possible.
+                      Thank you for reaching out. I will get back to you as soon as possible.
                     </p>
                   </motion.div>
                 ) : (
