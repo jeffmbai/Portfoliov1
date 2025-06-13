@@ -17,37 +17,41 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
     try {
       const canvas = canvasRef.current
-      const config = {
-        TRANSPARENT: true,
-        BACK_COLOR: { r: 0, g: 0, b: 0 },
-        BLOOM: true,
-        BLOOM_ITERATIONS: 8,
-        BLOOM_RESOLUTION: 256,
-        BLOOM_INTENSITY: 0.8,
-        BLOOM_THRESHOLD: 0.6,
-        BLOOM_SOFT_KNEE: 0.7,
-        SUNRAYS: true,
-        SUNRAYS_RESOLUTION: 196,
-        SUNRAYS_WEIGHT: 1.0,
-        TEXTURE_DOWNSAMPLE: 1,
-        DENSITY_DISSIPATION: 0.98,
-        VELOCITY_DISSIPATION: 0.99,
-        PRESSURE: 0.8,
-        PRESSURE_ITERATIONS: 20,
-        CURL: 30,
-        SPLAT_RADIUS: 0.25,
-        SPLAT_FORCE: 6000,
-        SHADING: true,
-        COLORFUL: true,
-        COLOR_UPDATE_SPEED: 10,
-        PAUSED: false,
-        HOVER: true,
-        MOVE_SPEED: 10,
-        POINTERS_SIZE: 10,
-      }
+      
+      // Initialize the fluid simulation
+      fluidInstanceRef.current = new WebGLFluidEnhanced(canvas)
 
-      // Use 'new' to create an instance
-      fluidInstanceRef.current = new WebGLFluidEnhanced(canvas, config)
+      // Apply configuration after initialization
+      if (fluidInstanceRef.current) {
+        fluidInstanceRef.current.config = {
+          TRANSPARENT: true,
+          BACK_COLOR: { r: 0, g: 0, b: 0 },
+          BLOOM: true,
+          BLOOM_ITERATIONS: 8,
+          BLOOM_RESOLUTION: 256,
+          BLOOM_INTENSITY: 0.8,
+          BLOOM_THRESHOLD: 0.6,
+          BLOOM_SOFT_KNEE: 0.7,
+          SUNRAYS: true,
+          SUNRAYS_RESOLUTION: 196,
+          SUNRAYS_WEIGHT: 1.0,
+          TEXTURE_DOWNSAMPLE: 1,
+          DENSITY_DISSIPATION: 0.98,
+          VELOCITY_DISSIPATION: 0.99,
+          PRESSURE: 0.8,
+          PRESSURE_ITERATIONS: 20,
+          CURL: 30,
+          SPLAT_RADIUS: 0.25,
+          SPLAT_FORCE: 6000,
+          SHADING: true,
+          COLORFUL: true,
+          COLOR_UPDATE_SPEED: 10,
+          PAUSED: false,
+          HOVER: true,
+          MOVE_SPEED: 10,
+          POINTERS_SIZE: 10,
+        }
+      }
 
       if (onInstanceReady) {
         onInstanceReady(fluidInstanceRef.current)
