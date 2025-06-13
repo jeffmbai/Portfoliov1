@@ -50,7 +50,9 @@ export default function ResumePage() {
                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
                       <h3 className="text-xl font-semibold">Senior Frontend Developer</h3>
                       <div className="mt-2 md:mt-0">
-                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">2021 - Present</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">
+                          2021 - Present
+                        </Badge>
                       </div>
                     </div>
                     <p className="text-gray-400 mb-4">TechCorp Inc.</p>
@@ -259,5 +261,17 @@ export default function ResumePage() {
                         <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Azure</Badge>
                         <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">AWS</Badge>
                         <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Testing</Badge>
-                        <Badge className="bg-amber\
-\
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Agile</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">DevOps</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.section>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
