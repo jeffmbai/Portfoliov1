@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import webGLFluidEnhanced from "webgl-fluid-enhanced"
 
 interface ClientFluidBackgroundProps {
@@ -9,7 +9,6 @@ interface ClientFluidBackgroundProps {
 
 export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -35,7 +34,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       colorful: true,
       colorUpdateSpeed: 10,
       colorPalette: ["#5f2c82", "#49a09d", "#5D26C1", "#a17fe0", "#59C173"],
-      hover: true,
+      hover: false, // Disable hover effect to use our custom mouse handling
       bloom: true,
       bloomIterations: 8,
       bloomResolution: 256,
@@ -47,12 +46,11 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     }
 
     // Initialize the simulation
-    webGLFluidEnhanced.simulation(canvasRef.current, config)
-    setIsInitialized(true)
+    const fluidInstance = webGLFluidEnhanced.simulation(canvasRef.current, config)
 
     // Expose the fluid instance to the parent component
     if (onInstanceReady) {
-      onInstanceReady(webGLFluidEnhanced)
+      onInstanceReady(fluidInstance)
     }
 
     // Create initial splats for visual interest when page loads
@@ -63,39 +61,36 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
         const dx = (Math.random() - 0.5) * 10
         const dy = (Math.random() - 0.5) * 10
         const color = getRandomColorFromPalette()
-        webGLFluidEnhanced.splat(x, y, dx, dy, color)
+        fluidInstance.splat(x, y, dx, dy, color)
       }
     }, 200)
 
-    // Update the mouse move handling to be more responsive
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isInitialized) return
+    // Handle mouse movement to create splats
+    let lastX = 0
+    let lastY = 0
+    let lastTime = 0
 
-      // Calculate velocity based on mouse movement
+    const handleMouseMove = (e: MouseEvent) => {
+      const now = Date.now()
+      if (now - lastTime < 16) return // Limit to ~60fps
+
+      lastTime = now
+
       const x = e.clientX
       const y = e.clientY
 
-      // Create a more dynamic effect with velocity based on mouse speed
-      const dx = e.movementX / 10
-      const dy = e.movementY / 10
+      // Calculate velocity based on movement
+      const dx = (x - lastX) * 0.1
+      const dy = (y - lastY) * 0.1
 
-      // Create a splat at the mouse position with random color
+      lastX = x
+      lastY = y
+
       const randomColor = getRandomColorFromPalette()
-      webGLFluidEnhanced.splat(x, y, dx, dy, randomColor)
+      fluidInstance.splat(x, y, dx, dy, randomColor)
     }
 
-    // Add throttled mouse move event listener
-    let lastTime = 0
-    const throttledMouseMove = (e: MouseEvent) => {
-      const now = Date.now()
-      if (now - lastTime > 30) {
-        // Reduced throttle time for smoother effect
-        lastTime = now
-        handleMouseMove(e)
-      }
-    }
-
-    window.addEventListener("mousemove", throttledMouseMove)
+    window.addEventListener("mousemove", handleMouseMove)
 
     // Handle window resize
     const handleResize = () => {
@@ -108,10 +103,21 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     window.addEventListener("resize", handleResize)
     handleResize()
 
+    // Create periodic splats to keep the fluid moving even when mouse is not moving
+    const intervalId = setInterval(() => {
+      const x = Math.random() * window.innerWidth
+      const y = Math.random() * window.innerHeight
+      const dx = (Math.random() - 0.5) * 5
+      const dy = (Math.random() - 0.5) * 5
+      const color = getRandomColorFromPalette()
+      fluidInstance.splat(x, y, dx, dy, color)
+    }, 3000)
+
     // Cleanup
     return () => {
-      window.removeEventListener("mousemove", throttledMouseMove)
+      window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("resize", handleResize)
+      clearInterval(intervalId)
     }
   }, [onInstanceReady])
 
@@ -121,6 +127,15 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     return palette[Math.floor(Math.random() * palette.length)]
   }
 
-  // Update the canvas z-index and opacity
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 opacity-90" />
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full"
+      style={{
+        zIndex: 0,
+        position: "fixed",
+        pointerEvents: "none", // Allow clicking through the canvas
+      }}
+    />
+  )
 }

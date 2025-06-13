@@ -26,11 +26,11 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen bg-black text-white`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {/* Fluid background positioned at the root level */}
+          {/* Fluid background that will appear on all pages */}
           <FluidBackground />
-          <div className="relative z-10 flex flex-col min-h-screen">
+          <div className="relative z-10">
             <Header />
-            <main className="flex-grow">{children}</main>
+            {children}
             <Footer />
           </div>
         </ThemeProvider>

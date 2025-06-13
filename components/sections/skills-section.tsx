@@ -52,7 +52,6 @@ const devopsSkills = [
 export default function SkillsSection() {
   return (
     <section id="skills" className="py-24 relative overflow-hidden">
-      {/* Remove background color to allow fluid background to show through */}
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -76,7 +75,7 @@ export default function SkillsSection() {
         >
           <Tabs defaultValue="frontend" className="w-full">
             <div className="flex justify-center mb-8">
-              <TabsList className="bg-black/50 backdrop-blur-sm border border-gray-800">
+              <TabsList className="bg-black/50 backdrop-blur-md border border-gray-800">
                 <TabsTrigger
                   value="frontend"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600/20 data-[state=active]:to-blue-600/20 data-[state=active]:text-white"
@@ -110,7 +109,7 @@ export default function SkillsSection() {
               </TabsList>
             </div>
 
-            <Card className="bg-black/50 backdrop-blur-sm border-gray-800">
+            <Card className="bg-black/50 backdrop-blur-md border-gray-800">
               <CardContent className="p-6">
                 <TabsContent value="frontend" className="mt-0">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

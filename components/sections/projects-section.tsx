@@ -29,7 +29,6 @@ export default function ProjectsSection() {
 
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
-      {/* Remove background gradient to allow fluid background to show through */}
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -57,7 +56,7 @@ export default function ProjectsSection() {
                 "border-gray-700 hover:border-purple-500/50 transition-all duration-300",
                 activeCategory === category
                   ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-purple-500/50 text-white"
-                  : "bg-black/50 backdrop-blur-sm text-gray-400 hover:text-white",
+                  : "bg-black/50 backdrop-blur-md text-gray-400 hover:text-white",
               )}
             >
               {category}
@@ -70,7 +69,7 @@ export default function ProjectsSection() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full bg-black/50 backdrop-blur-sm border-gray-700 hover:bg-black/80 hover:border-purple-500/50"
+              className="rounded-full bg-black/50 backdrop-blur-md border-gray-700 hover:bg-black/80 hover:border-purple-500/50"
               onClick={() => scroll("left")}
             >
               <ChevronLeft className="h-5 w-5" />
@@ -104,7 +103,7 @@ export default function ProjectsSection() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full bg-black/50 backdrop-blur-sm border-gray-700 hover:bg-black/80 hover:border-purple-500/50"
+              className="rounded-full bg-black/50 backdrop-blur-md border-gray-700 hover:bg-black/80 hover:border-purple-500/50"
               onClick={() => scroll("right")}
             >
               <ChevronRight className="h-5 w-5" />

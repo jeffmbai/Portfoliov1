@@ -9,14 +9,10 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { getFluidInstance } from "./fluid-background"
 
-interface FluidControllerProps {
-  fluidInstance: any | null
-}
-
-export default function FluidController({ fluidInstance: propInstance }: FluidControllerProps) {
+export default function FluidController() {
   const [isOpen, setIsOpen] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
-  const [localInstance, setLocalInstance] = useState<any>(null)
+  const [fluidInstance, setFluidInstance] = useState<any>(null)
   const [config, setConfig] = useState({
     curl: 10,
     density: 0.97,
@@ -26,33 +22,27 @@ export default function FluidController({ fluidInstance: propInstance }: FluidCo
   })
 
   useEffect(() => {
-    // Use either the prop instance or get the global instance
-    const instance = propInstance || getFluidInstance()
-    if (instance) {
-      setLocalInstance(instance)
-    }
-
     // Poll for the instance if it's not available yet
     const checkInterval = setInterval(() => {
       const globalInstance = getFluidInstance()
-      if (globalInstance && !localInstance) {
-        setLocalInstance(globalInstance)
+      if (globalInstance && !fluidInstance) {
+        setFluidInstance(globalInstance)
         clearInterval(checkInterval)
       }
     }, 500)
 
     return () => clearInterval(checkInterval)
-  }, [propInstance, localInstance])
+  }, [fluidInstance])
 
   const togglePause = () => {
-    if (localInstance) {
-      const paused = localInstance.togglePause()
+    if (fluidInstance) {
+      const paused = fluidInstance.togglePause()
       setIsPaused(paused)
     }
   }
 
   const createSplats = () => {
-    if (localInstance) {
+    if (fluidInstance) {
       // Create multiple splats at random positions
       for (let i = 0; i < 5; i++) {
         const x = Math.random() * window.innerWidth
@@ -64,37 +54,37 @@ export default function FluidController({ fluidInstance: propInstance }: FluidCo
           g: Math.random() * 0.5 + 0.2,
           b: Math.random() * 0.5 + 0.5,
         }
-        localInstance.splat(x, y, dx, dy, color)
+        fluidInstance.splat(x, y, dx, dy, color)
       }
     }
   }
 
   const downloadScreenshot = () => {
-    if (localInstance) {
-      localInstance.downloadScreenshot()
+    if (fluidInstance) {
+      fluidInstance.downloadScreenshot()
     }
   }
 
   const updateConfig = (key: string, value: number | boolean) => {
     setConfig((prev) => ({ ...prev, [key]: value }))
 
-    if (localInstance) {
+    if (fluidInstance) {
       // Update the configuration
       switch (key) {
         case "curl":
-          localInstance.curl = value
+          fluidInstance.curl = value
           break
         case "density":
-          localInstance.densityDissipation = value
+          fluidInstance.densityDissipation = value
           break
         case "brightness":
-          localInstance.brightness = value
+          fluidInstance.brightness = value
           break
         case "bloomIntensity":
-          localInstance.bloomIntensity = value
+          fluidInstance.bloomIntensity = value
           break
         case "sunrays":
-          localInstance.sunrays = value
+          fluidInstance.sunrays = value
           break
       }
     }

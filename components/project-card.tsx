@@ -36,7 +36,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <Card
-      className="overflow-hidden border-gray-800 hover:border-purple-500/50 transition-all duration-300 h-full flex flex-col bg-black/50 backdrop-blur-sm"
+      className="overflow-hidden border-gray-800 hover:border-purple-500/50 transition-all duration-300 h-full flex flex-col bg-gray-900/50 backdrop-blur-sm"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
