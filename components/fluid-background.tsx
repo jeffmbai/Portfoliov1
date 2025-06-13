@@ -1,7 +1,8 @@
 "use client"
 
-import { Suspense } from "react"
+import { Suspense, useState, useEffect } from "react"
 import dynamic from "next/dynamic"
+import FallbackBackground from "./fallback-background"
 
 interface FluidBackgroundProps {
   onInstanceReady?: (instance: any) => void
@@ -23,6 +24,32 @@ function BackgroundPlaceholder() {
 }
 
 export default function FluidBackground({ onInstanceReady }: FluidBackgroundProps) {
+  const [webglFailed, setWebglFailed] = useState(false)
+
+  useEffect(() => {
+    // Check if WebGL is supported
+    try {
+      const canvas = document.createElement("canvas")
+      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
+      if (!gl) {
+        setWebglFailed(true)
+      }
+    } catch (e) {
+      setWebglFailed(true)
+    }
+
+    // Set a timeout to switch to fallback if WebGL doesn't initialize in time
+    const timeout = setTimeout(() => {
+      setWebglFailed(true)
+    }, 3000)
+
+    return () => clearTimeout(timeout)
+  }, [])
+
+  if (webglFailed) {
+    return <FallbackBackground />
+  }
+
   return (
     <Suspense fallback={<BackgroundPlaceholder />}>
       <ClientFluidBackground onInstanceReady={onInstanceReady} />

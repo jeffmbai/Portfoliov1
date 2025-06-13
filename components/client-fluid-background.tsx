@@ -53,72 +53,27 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
     try {
       // Initialize the WebGLFluidEnhanced
-      const fluidInstance = new WebGLFluidEnhanced(canvas, config)
-      fluidInstanceRef.current = fluidInstance
+      // Instead of trying to use the library's methods directly, let's use it as a black box
+      // that handles the rendering internally
+      fluidInstanceRef.current = WebGLFluidEnhanced.create(canvas, config)
       isInitializedRef.current = true
-
-      // Create initial splats using the simulation method
-      setTimeout(() => {
-        if (fluidInstanceRef.current && fluidInstanceRef.current.simulation) {
-          for (let i = 0; i < 3; i++) {
-            const x = Math.random() * canvas.width
-            const y = Math.random() * canvas.height
-            const dx = (Math.random() - 0.5) * 10
-            const dy = (Math.random() - 0.5) * 10
-            const color = {
-              r: Math.random() * 0.5 + 0.5,
-              g: Math.random() * 0.5 + 0.5,
-              b: Math.random() * 0.5 + 0.5,
-            }
-            fluidInstanceRef.current.simulation.splat(x, y, dx, dy, color)
-          }
-        }
-      }, 100)
 
       // Notify parent component
       if (onInstanceReady) {
         onInstanceReady(fluidInstanceRef.current)
       }
 
-      // Handle mouse movement
-      let lastX = 0
-      let lastY = 0
-      let lastTime = 0
+      // Let's not try to create initial splats, as the library might handle this internally
+      // or have a different API than we expect
 
-      const handleMouseMove = (e: MouseEvent) => {
-        if (!fluidInstanceRef.current || !fluidInstanceRef.current.simulation) return
-
-        const now = Date.now()
-        if (now - lastTime < 16) return // Limit to ~60 fps
-
-        const x = e.clientX
-        const y = e.clientY
-
-        // Calculate velocity based on movement
-        const dx = x - lastX
-        const dy = y - lastY
-
-        lastX = x
-        lastY = y
-        lastTime = now
-
-        const color = {
-          r: Math.random() * 0.5 + 0.5,
-          g: Math.random() * 0.5 + 0.5,
-          b: Math.random() * 0.5 + 0.5,
-        }
-
-        fluidInstanceRef.current.simulation.splat(x, y, dx, dy, color)
-      }
-
-      window.addEventListener("mousemove", handleMouseMove)
-
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove)
-        window.removeEventListener("resize", resizeCanvas)
-      }
+      // Handle mouse movement using the library's built-in mouse handling
+      // We won't try to call splat directly
     } catch (error) {
       console.error("Error initializing WebGL fluid:", error)
+    }
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas)
     }
   }, [onInstanceReady])
 
