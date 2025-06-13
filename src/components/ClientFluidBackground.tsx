@@ -46,11 +46,30 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
         POINTERS_SIZE: 10,
       }
 
-      fluidInstanceRef.current = new WebGLFluidEnhanced(canvas, config)
+      // Use the simulation function instead of constructor
+      fluidInstanceRef.current = WebGLFluidEnhanced.simulation(canvas, config)
 
       if (onInstanceReady) {
         onInstanceReady(fluidInstanceRef.current)
       }
+
+      // Create initial splats for visual interest when page loads
+      setTimeout(() => {
+        if (fluidInstanceRef.current) {
+          for (let i = 0; i < 5; i++) {
+            const x = Math.random() * window.innerWidth
+            const y = Math.random() * window.innerHeight
+            const dx = (Math.random() - 0.5) * 10
+            const dy = (Math.random() - 0.5) * 10
+            const color = {
+              r: Math.random() * 0.5 + 0.2,
+              g: Math.random() * 0.5 + 0.2,
+              b: Math.random() * 0.5 + 0.5,
+            }
+            fluidInstanceRef.current.splat(x, y, dx, dy, color)
+          }
+        }
+      }, 200)
 
       initRef.current = true
     } catch (error) {
