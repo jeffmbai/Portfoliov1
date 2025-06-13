@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Settings, X } from "lucide-react"
+import { Settings, X, Play, Pause, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
@@ -14,6 +14,7 @@ interface FluidControllerProps {
 
 export default function FluidController({ fluidInstance }: FluidControllerProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
   const [config, setConfig] = useState({
     curl: 30,
     density: 0.97,
@@ -22,8 +23,74 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
     sunrays: true,
   })
 
-  // For now, let's just provide a simple controller that doesn't try to modify the fluid instance
-  // until we better understand its API
+  const togglePause = () => {
+    if (!fluidInstance || typeof fluidInstance.setPaused !== "function") return
+
+    const newPausedState = !isPaused
+    fluidInstance.setPaused(newPausedState)
+    setIsPaused(newPausedState)
+  }
+
+  const createSplats = () => {
+    if (!fluidInstance || typeof fluidInstance.addSplat !== "function") return
+
+    // Create multiple splats at random positions
+    for (let i = 0; i < 5; i++) {
+      const x = Math.random()
+      const y = Math.random()
+      const dx = (Math.random() - 0.5) * 10
+      const dy = (Math.random() - 0.5) * 10
+      const color = {
+        r: Math.random() * 0.5 + 0.5,
+        g: Math.random() * 0.5 + 0.5,
+        b: Math.random() * 0.5 + 0.5,
+      }
+      try {
+        fluidInstance.addSplat(x, y, dx, dy, color)
+      } catch (error) {
+        console.error("Error adding splat:", error)
+      }
+    }
+  }
+
+  const updateConfig = (key: string, value: number | boolean) => {
+    setConfig((prev) => ({ ...prev, [key]: value }))
+
+    if (!fluidInstance) return
+
+    // Update the configuration
+    try {
+      switch (key) {
+        case "curl":
+          if (typeof fluidInstance.setCurl === "function") {
+            fluidInstance.setCurl(value)
+          }
+          break
+        case "density":
+          if (typeof fluidInstance.setDensityDissipation === "function") {
+            fluidInstance.setDensityDissipation(value)
+          }
+          break
+        case "velocity":
+          if (typeof fluidInstance.setVelocityDissipation === "function") {
+            fluidInstance.setVelocityDissipation(value)
+          }
+          break
+        case "bloom":
+          if (typeof fluidInstance.setBloom === "function") {
+            fluidInstance.setBloom(value)
+          }
+          break
+        case "sunrays":
+          if (typeof fluidInstance.setSunrays === "function") {
+            fluidInstance.setSunrays(value)
+          }
+          break
+      }
+    } catch (error) {
+      console.error("Error updating config:", error)
+    }
+  }
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
@@ -60,7 +127,7 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
                 min={0}
                 max={50}
                 step={1}
-                onValueChange={(value) => setConfig((prev) => ({ ...prev, curl: value[0] }))}
+                onValueChange={(value) => updateConfig("curl", value[0])}
               />
             </div>
 
@@ -74,7 +141,7 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
                 min={0.9}
                 max={1}
                 step={0.01}
-                onValueChange={(value) => setConfig((prev) => ({ ...prev, density: value[0] }))}
+                onValueChange={(value) => updateConfig("density", value[0])}
               />
             </div>
 
@@ -88,29 +155,31 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
                 min={0.9}
                 max={1}
                 step={0.01}
-                onValueChange={(value) => setConfig((prev) => ({ ...prev, velocity: value[0] }))}
+                onValueChange={(value) => updateConfig("velocity", value[0])}
               />
             </div>
 
             <div className="flex items-center justify-between">
               <Label className="text-xs">Bloom Effect</Label>
-              <Switch
-                checked={config.bloom}
-                onCheckedChange={(checked) => setConfig((prev) => ({ ...prev, bloom: checked }))}
-              />
+              <Switch checked={config.bloom} onCheckedChange={(checked) => updateConfig("bloom", checked)} />
             </div>
 
             <div className="flex items-center justify-between">
               <Label className="text-xs">Sunrays Effect</Label>
-              <Switch
-                checked={config.sunrays}
-                onCheckedChange={(checked) => setConfig((prev) => ({ ...prev, sunrays: checked }))}
-              />
+              <Switch checked={config.sunrays} onCheckedChange={(checked) => updateConfig("sunrays", checked)} />
             </div>
 
-            <p className="text-xs text-gray-400 mt-4">
-              Note: Controls are currently in view-only mode while we resolve WebGL compatibility issues.
-            </p>
+            <div className="grid grid-cols-2 gap-2 pt-2">
+              <Button variant="outline" size="sm" className="bg-black/50 border-gray-700" onClick={togglePause}>
+                {isPaused ? <Play className="h-4 w-4 mr-1" /> : <Pause className="h-4 w-4 mr-1" />}
+                {isPaused ? "Play" : "Pause"}
+              </Button>
+
+              <Button variant="outline" size="sm" className="bg-black/50 border-gray-700" onClick={createSplats}>
+                <RefreshCw className="h-4 w-4 mr-1" />
+                Splat
+              </Button>
+            </div>
           </div>
         </motion.div>
       )}

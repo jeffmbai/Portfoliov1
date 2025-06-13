@@ -53,9 +53,8 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
     try {
       // Initialize the WebGLFluidEnhanced
-      // Instead of trying to use the library's methods directly, let's use it as a black box
-      // that handles the rendering internally
-      fluidInstanceRef.current = WebGLFluidEnhanced.create(canvas, config)
+      // Instead of directly using the constructor, use the exported function
+      fluidInstanceRef.current = WebGLFluidEnhanced.simulation(canvas, config)
       isInitializedRef.current = true
 
       // Notify parent component
@@ -63,17 +62,69 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
         onInstanceReady(fluidInstanceRef.current)
       }
 
-      // Let's not try to create initial splats, as the library might handle this internally
-      // or have a different API than we expect
+      // Create initial splats
+      setTimeout(() => {
+        if (fluidInstanceRef.current && typeof fluidInstanceRef.current.addSplat === "function") {
+          for (let i = 0; i < 3; i++) {
+            const x = Math.random()
+            const y = Math.random()
+            const dx = (Math.random() - 0.5) * 10
+            const dy = (Math.random() - 0.5) * 10
+            const color = {
+              r: Math.random() * 0.5 + 0.5,
+              g: Math.random() * 0.5 + 0.5,
+              b: Math.random() * 0.5 + 0.5,
+            }
+            fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
+          }
+        }
+      }, 100)
 
-      // Handle mouse movement using the library's built-in mouse handling
-      // We won't try to call splat directly
+      // Handle mouse movement
+      let lastX = 0
+      let lastY = 0
+      let lastTime = 0
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!fluidInstanceRef.current || typeof fluidInstanceRef.current.addSplat !== "function") return
+
+        const now = Date.now()
+        if (now - lastTime < 16) return // Limit to ~60 fps
+
+        // Convert mouse coordinates to normalized coordinates (0-1)
+        const rect = canvas.getBoundingClientRect()
+        const x = (e.clientX - rect.left) / rect.width
+        const y = (e.clientY - rect.top) / rect.height
+
+        // Calculate velocity based on movement
+        const dx = (x - lastX) * 10
+        const dy = (y - lastY) * 10
+
+        lastX = x
+        lastY = y
+        lastTime = now
+
+        const color = {
+          r: Math.random() * 0.5 + 0.5,
+          g: Math.random() * 0.5 + 0.5,
+          b: Math.random() * 0.5 + 0.5,
+        }
+
+        try {
+          fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
+        } catch (error) {
+          console.error("Error adding splat:", error)
+        }
+      }
+
+      window.addEventListener("mousemove", handleMouseMove)
+
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove)
+        window.removeEventListener("resize", resizeCanvas)
+      }
     } catch (error) {
       console.error("Error initializing WebGL fluid:", error)
-    }
-
-    return () => {
-      window.removeEventListener("resize", resizeCanvas)
     }
   }, [onInstanceReady])
 
