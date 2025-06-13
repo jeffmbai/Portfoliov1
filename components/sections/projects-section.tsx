@@ -28,7 +28,7 @@ export default function ProjectsSection() {
   }
 
   return (
-    <section id="projects" className="py-24 relative z-10">
+    <section id="projects" className="py-4 relative z-10">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">

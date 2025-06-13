@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const frontendSkills = [
   { name: "React", level: 95 },
-  { name: "TypeScript", level: 90 },
+  { name: "TypeScript", level: 95 },
   { name: "Next.js", level: 90 },
   { name: "Tailwind CSS", level: 95 },
   { name: "HTML5/CSS3", level: 95 },
@@ -14,44 +14,38 @@ const frontendSkills = [
 ]
 
 const mobileSkills = [
-  { name: "React Native", level: 90 },
-  { name: "Expo", level: 85 },
-  { name: "iOS Development", level: 80 },
-  { name: "Android Development", level: 80 },
-  { name: "Mobile UI/UX", level: 85 },
+  { name: "React Native", level: 95 },
+  { name: "Expo", level: 95 },
+  { name: "Mobile UI/UX", level: 95 },
   { name: "Offline Storage", level: 75 },
 ]
 
 const backendSkills = [
-  { name: "Flask", level: 70 },
-  { name: ".NET/C#", level: 65 },
-  { name: "Node.js", level: 75 },
-  { name: "Express", level: 70 },
-  { name: "RESTful APIs", level: 85 },
+  { name: "Flask", level: 95 },
+  { name: ".NET/C#", level: 85 },
+  { name: "RESTful APIs", level: 95 },
   { name: "GraphQL", level: 65 },
 ]
 
 const databaseSkills = [
-  { name: "Firebase", level: 80 },
-  { name: "MongoDB", level: 75 },
+  { name: "Firebase", level: 90 },
+  { name: "MongoDB", level: 85 },
   { name: "Supabase", level: 80 },
-  { name: "SQL", level: 70 },
-  { name: "NoSQL", level: 75 },
-  { name: "Data Modeling", level: 70 },
+  { name: "SQL", level: 90 },
 ]
 
 const devopsSkills = [
-  { name: "Azure", level: 75 },
-  { name: "DevOps", level: 70 },
-  { name: "CI/CD", level: 75 },
-  { name: "Docker", level: 70 },
+  { name: "Azure", level: 80 },
+  { name: "DevOps", level: 80 },
+  { name: "CI/CD", level: 85 },
+  { name: "Docker", level: 80 },
   { name: "Git", level: 85 },
-  { name: "GitHub Actions", level: 75 },
+  { name: "GitHub Actions", level: 85 },
 ]
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="py-24 relative z-10">
+    <section id="skills" className="py-4 relative z-10">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">

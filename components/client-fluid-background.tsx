@@ -13,37 +13,38 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
   useEffect(() => {
     if (!canvasRef.current) return
+    const config: any = {
+      SIM_RESOLUTION: 128,
+      DYE_RESOLUTION: 1024,
+      CAPTURE_RESOLUTION: 512,
+      DENSITY_DISSIPATION: 1,
+      VELOCITY_DISSIPATION: 0.2,
+      PRESSURE: 0.8,
+      PRESSURE_ITERATIONS: 20,
+      CURL: 30,
+      INITIAL: true,
+      SPLAT_AMOUNT: 5,
+      SPLAT_RADIUS: 0.25,
+      SPLAT_FORCE: 6000,
+      SPLAT_KEY: 'Space',
+      SHADING: true,
+      COLORFUL: true,
+      COLOR_UPDATE_SPEED: 10,
+      COLOR_PALETTE: [],
+      HOVER: true,
+      BACK_COLOR: '#000000',
+      TRANSPARENT: false,
+      BRIGHTNESS: 0.2,
+      BLOOM: true,
+      BLOOM_ITERATIONS: 8,
+      BLOOM_RESOLUTION: 256,
+      BLOOM_INTENSITY: 0.8,
+      BLOOM_THRESHOLD: 0.6,
+      BLOOM_SOFT_KNEE: 0.7,
+      SUNRAYS: true,
+      SUNRAYS_RESOLUTION: 196,
+      SUNRAYS_WEIGHT: 1.0,
 
-    // Initialize the simulation with the canvas element
-    const config = {
-      // Core simulation settings from user request
-      pressureIterations: 10,
-      curl: 10,
-      transparent: true,
-      brightness: 0.1,
-      bloomIntensity: 0.1,
-
-      // Additional settings for better visual appeal
-      simResolution: 128,
-      dyeResolution: 1024,
-      densityDissipation: 0.97,
-      velocityDissipation: 0.98,
-      pressure: 0.8,
-      splatRadius: 0.6,
-      splatForce: 6000,
-      shading: true,
-      colorful: true,
-      colorUpdateSpeed: 10,
-      colorPalette: ["#5f2c82", "#49a09d", "#5D26C1", "#a17fe0", "#59C173"],
-      hover: true,
-      bloom: true,
-      bloomIterations: 8,
-      bloomResolution: 256,
-      bloomThreshold: 0.6,
-      bloomSoftKnee: 0.7,
-      sunrays: true,
-      sunraysResolution: 196,
-      sunraysWeight: 1.0,
     }
 
     // Initialize the simulation

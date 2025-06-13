@@ -10,6 +10,14 @@ export const projectsData: Project[] = [
     link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.ipas",
   },
   {
+    title: "CoinCurios",
+    description:
+      "Coin Curios transforms financial learning into an exciting adventure! Designed specifically for children ages 10 and up, our app makes money management fun through colorful interfaces, engaging activities, and kid-friendly content",
+    category: "Mobile",
+    technologies: ["React Native", "Tailwind", "TypeScript", "Firebase", "Expo"],
+    link: "https://apps.apple.com/us/app/coin-curios/id6745624359",
+  },
+  {
     title: "eMEL",
     description:
       "Mobile Application for the project monitoring and evaluation software. Developed using React Native, Microsoft identity and Expo. We extended the web functionalities to the mobile application",
@@ -41,14 +49,7 @@ export const projectsData: Project[] = [
     technologies: ["React Native", "Firebase", ".NET", "C#", "Expo"],
     link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.topmarine",
   },
-  {
-    title: "CoinCurios",
-    description:
-      "Coin Curios transforms financial learning into an exciting adventure! Designed specifically for children ages 10 and up, our app makes money management fun through colorful interfaces, engaging activities, and kid-friendly content",
-    category: "Mobile",
-    technologies: ["React Native", "Tailwind", "TypeScript", "Firebase", "Expo"],
-    link: "https://apps.apple.com/us/app/coin-curios/id6745624359",
-  },
+ 
   {
     title: "Infinity",
     description:

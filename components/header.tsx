@@ -152,7 +152,7 @@ export default function Header() {
 
                 <div className="flex space-x-4 py-2">
                   <Link
-                    href="https://github.com"
+                    href="https://github.com/jeffmbai/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white/70 hover:text-white transition-colors"
@@ -160,21 +160,14 @@ export default function Header() {
                     <Github className="h-5 w-5" />
                   </Link>
                   <Link
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/geoffreymbai/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white/70 hover:text-white transition-colors"
                   >
                     <Linkedin className="h-5 w-5" />
                   </Link>
-                  <Link
-                    href="https://twitter.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    <Twitter className="h-5 w-5" />
-                  </Link>
+                 
                 </div>
 
                 <Button

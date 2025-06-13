@@ -56,7 +56,7 @@ export default function Home() {
 
             <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-lg">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-                Software Engineer
+                Jeff Mbai
               </span>
             </h1>
 

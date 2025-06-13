@@ -23,7 +23,7 @@
     "react-dom": "^19",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "webgl-fluid-enhanced": "latest",
+    "webgl-fluid-enhanced": "0.6.1",
     "next-themes":"latest"
   },
   "devDependencies": {

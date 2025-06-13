@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
+import Link from "next/link"
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-24 relative z-10">
+    <section id="contact" className="py-4 relative z-10">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -54,7 +55,7 @@ export default function ContactSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-6"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Get In Touch</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8"></div>
@@ -72,29 +73,33 @@ export default function ContactSection() {
             className="lg:col-span-1"
           >
             <div className="space-y-6">
-              <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-purple-500/30 transition-all duration-300">
-                <CardContent className="p-6 flex items-center">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-full bg-purple-500/20 mr-4">
-                    <Mail className="h-6 w-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium mb-1">Email</h3>
-                    <p className="text-gray-400">contact@example.com</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <Link href="mailto:jeffkinuthia254@gmail.com" passHref legacyBehavior>
+                <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-purple-500/30 transition-all duration-300 cursor-pointer">
+                  <CardContent className="p-6 flex items-center">
+                    <div className="w-14 h-14 flex items-center justify-center rounded-full bg-purple-500/20 mr-4">
+                      <Mail className="h-6 w-6 text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-1">Email</h3>
+                      <p className="text-gray-400">jeffkinuthia254@gmail.com</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
 
-              <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-blue-500/30 transition-all duration-300">
-                <CardContent className="p-6 flex items-center">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-full bg-blue-500/20 mr-4">
-                    <Phone className="h-6 w-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium mb-1">Phone</h3>
-                    <p className="text-gray-400">+1 (123) 456-7890</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <Link href="tel:+254111983314" passHref legacyBehavior>
+                <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-blue-500/30 transition-all duration-300 cursor-pointer">
+                  <CardContent className="p-6 flex items-center">
+                    <div className="w-14 h-14 flex items-center justify-center rounded-full bg-blue-500/20 mr-4">
+                      <Phone className="h-6 w-6 text-blue-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-1">Phone</h3>
+                      <p className="text-gray-400">+254111983314</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
 
               <Card className="bg-gray-900/30 backdrop-blur-sm border-gray-800 hover:border-emerald-500/30 transition-all duration-300">
                 <CardContent className="p-6 flex items-center">
@@ -103,7 +108,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h3 className="text-lg font-medium mb-1">Location</h3>
-                    <p className="text-gray-400">San Francisco, CA</p>
+                    <p className="text-gray-400">Nairobi, Kenya</p>
                   </div>
                 </CardContent>
               </Card>
@@ -112,7 +117,7 @@ export default function ContactSection() {
                 <h3 className="text-lg font-medium mb-4">Follow Me</h3>
                 <div className="flex space-x-4">
                   <a
-                    href="#"
+                    href="https://github.com/jeffmbai/"
                     className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-500/20 transition-colors"
                   >
                     <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
