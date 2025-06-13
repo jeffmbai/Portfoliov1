@@ -3,6 +3,14 @@
 import { Suspense } from "react"
 import dynamic from "next/dynamic"
 
+// Create a global variable to store the fluid instance
+let globalFluidInstance: any = null
+
+// Function to get the global fluid instance
+export function getFluidInstance() {
+  return globalFluidInstance
+}
+
 interface FluidBackgroundProps {
   onInstanceReady?: (instance: any) => void
 }
@@ -24,9 +32,16 @@ function BackgroundPlaceholder() {
 }
 
 export default function FluidBackground({ onInstanceReady }: FluidBackgroundProps) {
+  const handleInstanceReady = (instance: any) => {
+    globalFluidInstance = instance
+    if (onInstanceReady) {
+      onInstanceReady(instance)
+    }
+  }
+
   return (
     <Suspense fallback={<BackgroundPlaceholder />}>
-      <ClientFluidBackground onInstanceReady={onInstanceReady} />
+      <ClientFluidBackground onInstanceReady={handleInstanceReady} />
     </Suspense>
   )
 }

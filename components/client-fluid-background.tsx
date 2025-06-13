@@ -20,7 +20,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       pressureIterations: 10,
       curl: 10,
       transparent: true,
-      brightness: 0.1,
+      brightness: 0.2,
       bloomIntensity: 0.1,
 
       // Additional settings for better visual appeal
@@ -67,7 +67,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       }
     }, 200)
 
-    // Handle mouse movement to create splats
+    // Update the mouse move handling to be more responsive
     const handleMouseMove = (e: MouseEvent) => {
       if (!isInitialized) return
 
@@ -75,17 +75,21 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       const x = e.clientX
       const y = e.clientY
 
+      // Create a more dynamic effect with velocity based on mouse speed
+      const dx = e.movementX / 10
+      const dy = e.movementY / 10
+
       // Create a splat at the mouse position with random color
       const randomColor = getRandomColorFromPalette()
-      webGLFluidEnhanced.splat(x, y, 0, 0, randomColor)
+      webGLFluidEnhanced.splat(x, y, dx, dy, randomColor)
     }
 
     // Add throttled mouse move event listener
     let lastTime = 0
     const throttledMouseMove = (e: MouseEvent) => {
       const now = Date.now()
-      if (now - lastTime > 50) {
-        // Throttle to 50ms
+      if (now - lastTime > 30) {
+        // Reduced throttle time for smoother effect
         lastTime = now
         handleMouseMove(e)
       }
@@ -117,5 +121,6 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     return palette[Math.floor(Math.random() * palette.length)]
   }
 
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 opacity-80" />
+  // Update the canvas z-index and opacity
+  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 opacity-90" />
 }

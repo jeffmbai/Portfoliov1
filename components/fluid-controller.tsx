@@ -1,37 +1,58 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Settings, X, Play, Pause, Download, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { getFluidInstance } from "./fluid-background"
 
 interface FluidControllerProps {
   fluidInstance: any | null
 }
 
-export default function FluidController({ fluidInstance }: FluidControllerProps) {
+export default function FluidController({ fluidInstance: propInstance }: FluidControllerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
+  const [localInstance, setLocalInstance] = useState<any>(null)
   const [config, setConfig] = useState({
     curl: 10,
     density: 0.97,
-    brightness: 0.1,
+    brightness: 0.2,
     bloomIntensity: 0.1,
     sunrays: true,
   })
 
+  useEffect(() => {
+    // Use either the prop instance or get the global instance
+    const instance = propInstance || getFluidInstance()
+    if (instance) {
+      setLocalInstance(instance)
+    }
+
+    // Poll for the instance if it's not available yet
+    const checkInterval = setInterval(() => {
+      const globalInstance = getFluidInstance()
+      if (globalInstance && !localInstance) {
+        setLocalInstance(globalInstance)
+        clearInterval(checkInterval)
+      }
+    }, 500)
+
+    return () => clearInterval(checkInterval)
+  }, [propInstance, localInstance])
+
   const togglePause = () => {
-    if (fluidInstance) {
-      const paused = fluidInstance.togglePause()
+    if (localInstance) {
+      const paused = localInstance.togglePause()
       setIsPaused(paused)
     }
   }
 
   const createSplats = () => {
-    if (fluidInstance) {
+    if (localInstance) {
       // Create multiple splats at random positions
       for (let i = 0; i < 5; i++) {
         const x = Math.random() * window.innerWidth
@@ -43,37 +64,37 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
           g: Math.random() * 0.5 + 0.2,
           b: Math.random() * 0.5 + 0.5,
         }
-        fluidInstance.splat(x, y, dx, dy, color)
+        localInstance.splat(x, y, dx, dy, color)
       }
     }
   }
 
   const downloadScreenshot = () => {
-    if (fluidInstance) {
-      fluidInstance.downloadScreenshot()
+    if (localInstance) {
+      localInstance.downloadScreenshot()
     }
   }
 
   const updateConfig = (key: string, value: number | boolean) => {
     setConfig((prev) => ({ ...prev, [key]: value }))
 
-    if (fluidInstance) {
+    if (localInstance) {
       // Update the configuration
       switch (key) {
         case "curl":
-          fluidInstance.curl = value
+          localInstance.curl = value
           break
         case "density":
-          fluidInstance.densityDissipation = value
+          localInstance.densityDissipation = value
           break
         case "brightness":
-          fluidInstance.brightness = value
+          localInstance.brightness = value
           break
         case "bloomIntensity":
-          fluidInstance.bloomIntensity = value
+          localInstance.bloomIntensity = value
           break
         case "sunrays":
-          fluidInstance.sunrays = value
+          localInstance.sunrays = value
           break
       }
     }

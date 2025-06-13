@@ -5,6 +5,8 @@ import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import FluidBackground from "@/components/fluid-background"
+import FluidController from "@/components/fluid-controller"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,8 +27,11 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen bg-black text-white`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          {/* Fluid background that will appear on all pages */}
+          <FluidBackground />
+          <FluidController fluidInstance={null} />
           <Header />
-          {children}
+          <div className="relative z-10">{children}</div>
           <Footer />
         </ThemeProvider>
       </body>
