@@ -1,7 +1,5 @@
-"use client"
+import HomePage from "@/src/pages/HomePage"
 
-import FluidBackground from "../components/fluid-background"
-
-export default function SyntheticV0PageForDeployment() {
-  return <FluidBackground />
+export default function Page() {
+  return <HomePage />
 }
