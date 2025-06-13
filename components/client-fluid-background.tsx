@@ -58,9 +58,8 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     }
 
     try {
-      // Initialize the WebGLFluidEnhanced directly
-      // The library exports a default function that we call with the canvas and config
-      fluidInstanceRef.current = WebGLFluidEnhanced(canvasRef.current, config)
+      // Initialize the WebGLFluidEnhanced with the 'new' keyword since it's a class constructor
+      fluidInstanceRef.current = new WebGLFluidEnhanced(canvasRef.current, config)
       setIsInitialized(true)
 
       // Expose the fluid instance to the parent component
