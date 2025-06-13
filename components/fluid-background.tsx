@@ -3,6 +3,10 @@
 import { Suspense } from "react"
 import dynamic from "next/dynamic"
 
+interface FluidBackgroundProps {
+  onInstanceReady?: (instance: any) => void
+}
+
 // Import the fluid background component with SSR disabled
 const ClientFluidBackground = dynamic(() => import("./client-fluid-background"), {
   ssr: false,
@@ -19,10 +23,10 @@ function BackgroundPlaceholder() {
   )
 }
 
-export default function FluidBackground() {
+export default function FluidBackground({ onInstanceReady }: FluidBackgroundProps) {
   return (
     <Suspense fallback={<BackgroundPlaceholder />}>
-      <ClientFluidBackground />
+      <ClientFluidBackground onInstanceReady={onInstanceReady} />
     </Suspense>
   )
 }

@@ -1,10 +1,11 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown, Code, Smartphone, Database, Server } from "lucide-react"
 import Link from "next/link"
 import FluidBackground from "@/components/fluid-background"
+import FluidController from "@/components/fluid-controller"
 import ProjectsSection from "@/components/sections/projects-section"
 import SkillsSection from "@/components/sections/skills-section"
 import AboutSection from "@/components/sections/about-section"
@@ -15,6 +16,7 @@ import { Badge } from "@/components/ui/badge"
 export default function Home() {
   const projectsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [fluidInstance, setFluidInstance] = useState<any>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -23,6 +25,11 @@ export default function Home() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
 
+  // Function to expose the fluid instance from the child component
+  const handleFluidInstanceReady = (instance: any) => {
+    setFluidInstance(instance)
+  }
+
   const scrollToProjects = () => {
     projectsRef.current?.scrollIntoView({ behavior: "smooth" })
   }
@@ -30,7 +37,8 @@ export default function Home() {
   return (
     <main className="relative min-h-screen" ref={containerRef}>
       {/* Hero Section with WebGL Fluid Background */}
-      <FluidBackground />
+      <FluidBackground onInstanceReady={handleFluidInstanceReady} />
+      <FluidController fluidInstance={fluidInstance} />
 
       <div className="relative h-screen flex items-center justify-center overflow-hidden">
         <motion.div
