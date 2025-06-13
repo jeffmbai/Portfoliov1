@@ -1,158 +1,131 @@
 import type { Project } from "./types"
 
-export const projects: Project[] = [
+export const projectsData: Project[] = [
   {
-    id: 1,
-    title: "E-commerce Platform",
-    description: "A full-featured e-commerce platform with product management, cart, and checkout functionality.",
-    image: "/placeholder.png?height=300&width=500",
-    category: "web",
-    tags: ["React", "Node.js", "MongoDB", "Stripe"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Fitness Tracking App",
-    description: "Mobile application for tracking workouts, nutrition, and fitness progress.",
-    image: "/placeholder.png?height=300&width=500",
-    category: "mobile",
-    tags: ["React Native", "Firebase", "Redux", "Expo"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Task Management Dashboard",
-    description: "Collaborative task management tool with real-time updates and team features.",
-    image: "/placeholder.png?height=300&width=500",
-    category: "web",
-    tags: ["TypeScript", "React", "Socket.io", "Express"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "Weather Forecast App",
-    description: "Mobile app providing detailed weather forecasts and alerts based on location.",
-    image: "/placeholder.png?height=300&width=500",
-    category: "mobile",
-    tags: ["React Native", "Weather API", "Geolocation", "Charts"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Portfolio Website",
-    description: "Personal portfolio website showcasing projects and skills with interactive elements.",
-    image: "/placeholder.png?height=300&width=500",
-    category: "web",
-    tags: ["React", "Three.js", "Framer Motion", "Tailwind CSS"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Recipe Sharing Platform",
-    description: "Social platform for sharing and discovering recipes with user ratings and comments.",
-    image: "/placeholder.png?height=300&width=500",
-    category: "web",
-    tags: ["Next.js", "PostgreSQL", "Auth0", "Cloudinary"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    featured: false,
-  },
-]
-
-export const skills = {
-  frontend: ["React", "TypeScript", "JavaScript", "HTML/CSS", "Tailwind CSS", "Redux", "Next.js"],
-  mobile: ["React Native", "Expo", "iOS Development", "Android Development", "Mobile UI/UX"],
-  backend: ["Node.js", "Express", "Flask", "C#/.NET", "RESTful APIs", "GraphQL"],
-  tools: ["Git", "Docker", "CI/CD", "Jest/Testing", "Figma", "VS Code"],
-}
-
-export const experiences = [
-  {
-    id: 1,
-    title: "Senior Frontend Developer",
-    company: "Tech Innovations Inc.",
-    location: "San Francisco, CA",
-    period: "2021 - Present",
+    title: "iPAS",
     description:
-      "Lead frontend development for multiple projects, mentoring junior developers and implementing best practices. Reduced load times by 40% through performance optimizations.",
-    technologies: ["React", "TypeScript", "Next.js", "Redux", "Tailwind CSS"],
+      "Cross-platform mobile application for pensions management, remittance and monitoring with interactive UI where users can follow through their pension",
+    category: "Mobile",
+    technologies: ["React Native", "MSSQL", "C#", ".NET"],
+    link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.ipas",
   },
   {
-    id: 2,
-    title: "Mobile Developer",
-    company: "AppWorks Solutions",
-    location: "Remote",
-    period: "2019 - 2021",
+    title: "eMEL",
     description:
-      "Developed cross-platform mobile applications using React Native. Implemented complex UI components and integrated with backend services. Improved app stability and user experience.",
-    technologies: ["React Native", "Expo", "Redux", "Firebase", "Jest"],
+      "Mobile Application for the project monitoring and evaluation software. Developed using React Native, Microsoft identity and Expo. We extended the web functionalities to the mobile application",
+    category: "Mobile",
+    technologies: ["React Native", "Firebase", "Azure AD", "Expo"],
+    link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.emel",
   },
   {
-    id: 3,
-    title: "Frontend Developer",
-    company: "WebSphere Agency",
-    location: "Boston, MA",
-    period: "2017 - 2019",
+    title: "TopMarine",
     description:
-      "Built responsive web applications for various clients. Collaborated with designers and backend developers to deliver high-quality products on time and within budget.",
-    technologies: ["JavaScript", "React", "HTML/CSS", "SASS", "Webpack"],
+      "Top Marine is mobile app developed using React Native, C#, Expo and Microsoft identity. It is a shipping logistics tracking application where shippers can track their shipment logistics from where they're boarded to offloading.",
+    category: "Mobile",
+    technologies: ["React Native", "Firebase", ".NET", "C#", "Expo"],
+    link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.icoms",
   },
-]
-
-export const education = [
   {
-    id: 1,
-    degree: "Master of Science in Computer Science",
-    institution: "Stanford University",
-    location: "Stanford, CA",
-    period: "2015 - 2017",
+    title: "iBusiness",
     description:
-      "Specialized in Human-Computer Interaction and Software Engineering. Completed thesis on optimizing user interfaces for mobile applications.",
+      "IBusiness is mobile appliation for the accounting saas to enhance ease of use. We leveraged on React Native, Microsoft Identity, Expo and Firebase to integrate the key accounting saas processes. The app was integrated with offline awareness to enable all time access",
+    category: "Mobile",
+    technologies: ["React Native", "Firebase", "Azure", "Expo", "C#", ".NET"],
+    link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.ibusiness",
   },
   {
-    id: 2,
-    degree: "Bachelor of Science in Computer Science",
-    institution: "University of Washington",
-    location: "Seattle, WA",
-    period: "2011 - 2015",
+    title: "iComms",
     description:
-      "Graduated with honors. Participated in multiple hackathons and coding competitions. Served as teaching assistant for introductory programming courses.",
-  },
-]
-
-export const certifications = [
-  {
-    id: 1,
-    name: "AWS Certified Developer - Associate",
-    issuer: "Amazon Web Services",
-    date: "2022",
+      "IComms is an mobile application geared towards enhancing business and county administrative operations for key business and government agencies.",
+    category: "Mobile",
+    technologies: ["React Native", "Firebase", ".NET", "C#", "Expo"],
+    link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.topmarine",
   },
   {
-    id: 2,
-    name: "Professional Scrum Master I (PSM I)",
-    issuer: "Scrum.org",
-    date: "2021",
+    title: "CoinCurios",
+    description:
+      "Coin Curios transforms financial learning into an exciting adventure! Designed specifically for children ages 10 and up, our app makes money management fun through colorful interfaces, engaging activities, and kid-friendly content",
+    category: "Mobile",
+    technologies: ["React Native", "Tailwind", "TypeScript", "Firebase", "Expo"],
+    link: "https://apps.apple.com/us/app/coin-curios/id6745624359",
   },
   {
-    id: 3,
-    name: "React Native Specialist",
-    issuer: "Udacity",
-    date: "2020",
+    title: "Infinity",
+    description:
+      "This project is a web-based automated financial tool designed to help investors using Trading 212 make smarter investment decisions, particularly around portfolio analysis and dividend reinvestment. The system scans the user's portfolio and the wider market to identify undervalued stocks with strong fundamentals, then recommends optimal reinvestment strategies for dividends received.",
+    category: "WebApp",
+    technologies: ["React", "NextJS", "Tailwind", "MongoDB", "CI/CD"],
+    link: "https://infinity-orpin.vercel.app/",
   },
   {
-    id: 4,
-    name: "Google UX Design Professional Certificate",
-    issuer: "Google",
-    date: "2019",
+    title: "Project Management Platform",
+    description:
+      "Developed a comprehensive Project Monitoring and Evaluation software using C#, .NET, React, MSSQL Server, Docker, Azure, and Git. This solution facilitated real-time tracking of project activities, advanced data visualization for better insights",
+    category: "WebApp",
+    technologies: ["React", ".Net", "C#", "Express", "MsSQL", "Docker", "Azure", "DevOps"],
+    link: "https://emel.cloudmlapps.com/",
+  },
+  {
+    title: "Saas Accounting Software",
+    description:
+      "Developed saas accounting software which included key business processes from procurement, inventory management, order to cash and general accounting principles. Leveraged on C#, React, Docker, Azure, Microsoft Identity and .NET",
+    category: "WebApp",
+    technologies: ["React", ".Net", "C#", "Express", "MsSQL", "Docker", "Azure", "DevOps"],
+    link: "https://app.cloudmlapps.com/",
+  },
+  {
+    title: "Top Marine",
+    description:
+      "Developed a comprehensive shipping and logistics shipment software using C#, .NET, React, MsSQL, Docker, Azure, and DevOps. The web app allows users to track their shipments from when they are loaded to when they're offloaded.",
+    category: "WebApp",
+    technologies: ["React", ".Net", "C#", "Express", "MsSQL", "Docker", "Azure", "DevOps"],
+    link: "https://topmarine.cloudmlapps.com/",
+  },
+  {
+    title: "Digital Scanner",
+    description:
+      "Developed a Pneumonia Detection Web Application utilizing Flask, Python, Git, and React. Integrated machine learning algorithms to accurately identify pneumonia from chest X-ray images.",
+    category: "WebApp",
+    technologies: ["React", "Flask", "Firebase", "Git", "Python", "Tensorflow"],
+    link: "#",
+  },
+  {
+    title: "Tivui",
+    description:
+      "Developed a robust Multivendor E-commerce platform tailored for the sale of furniture and home decor items. Leveraged Flask, React and MySQL to provide seamless functionality for both buyers and sellers",
+    category: "WebApp",
+    technologies: ["React", "Flask", "Firebase", "MongoDB"],
+    link: "https://tivui.co.ke/",
+  },
+  {
+    title: "Property Control 360",
+    description:
+      "Property Control 360 is a property management system that allows property owners to manage their properties, tenants, and payments. The system is integrated with MPESA payment and tenants can pay rent online.",
+    category: "Website",
+    technologies: ["WordPress", "MySQL", "PHP"],
+    link: "http://propertycontrol360.com/",
+  },
+  {
+    title: "The Covenant of Grace",
+    description:
+      "The Covenant of Grace is a church website that allows the church to post sermons, events, and blogs. The website is integrated with payment and church members can contribute donations for church projects.",
+    category: "Website",
+    technologies: ["WordPress", "MySQL", "PHP"],
+    link: "https://thecovenantofgrace.org/",
+  },
+  {
+    title: "Esco Bar Mobile Catering",
+    description: "Website for Esco Bar for ordering of mobile bar catering services for their events",
+    category: "Website",
+    technologies: ["WordPress", "MySQL", "PHP"],
+    link: "https://esco-bar.co.uk/",
+  },
+  {
+    title: "Centre for Suicide Research and Prevention",
+    description:
+      "Website to help victims of suicide to get help, prevent recurring suicidal thoughts and organize events to create awareness",
+    category: "Website",
+    technologies: ["WordPress", "MySQL", "PHP"],
+    link: "https://csricentre.org/",
   },
 ]

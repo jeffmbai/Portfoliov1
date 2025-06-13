@@ -1,252 +1,263 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
-import { ArrowLeft, Download, Briefcase, GraduationCap, Award } from "lucide-react"
+import { Download, Briefcase, GraduationCap, Code } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Card, CardContent } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
-import { experiences, education, certifications, skills } from "../lib/data"
 
 export default function ResumePage() {
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-black">
+    <div className="min-h-screen bg-black pt-24 pb-16">
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between"
+          >
             <div>
-              <Link
-                to="/"
-                className="inline-flex items-center text-sm text-gray-400 hover:text-white mb-4 transition-colors"
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
-              </Link>
-              <h1 className="text-3xl md:text-4xl font-bold">Resume</h1>
+              <h1 className="text-3xl md:text-4xl font-bold mb-2">My Resume</h1>
+              <p className="text-gray-400">Frontend & Mobile Developer</p>
             </div>
-            <Button className="mt-4 md:mt-0" asChild>
-              <a href="/resume.pdf" download>
-                <Download className="mr-2 h-4 w-4" /> Download PDF
-              </a>
+            <Button
+              className="mt-4 md:mt-0 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none"
+              onClick={() => {
+                // In a real app, this would download the resume PDF
+                alert("Resume download functionality would be implemented here")
+              }}
+            >
+              <Download className="mr-2 h-4 w-4" /> Download PDF
             </Button>
-          </div>
+          </motion.div>
 
           <div className="space-y-12">
             {/* Experience Section */}
-            <section>
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
               <div className="flex items-center mb-6">
-                <Briefcase className="h-6 w-6 text-purple-500 mr-3" />
+                <Briefcase className="h-6 w-6 mr-3 text-purple-500" />
                 <h2 className="text-2xl font-bold">Work Experience</h2>
               </div>
 
               <div className="space-y-6">
-                {experiences.map((exp, index) => (
-                  <motion.div
-                    key={exp.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
-                      <CardContent className="p-6">
-                        <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                          <div>
-                            <h3 className="text-xl font-semibold">{exp.title}</h3>
-                            <p className="text-purple-400">{exp.company}</p>
-                          </div>
-                          <div className="mt-2 md:mt-0 text-right">
-                            <p className="text-gray-400">{exp.period}</p>
-                            <p className="text-sm text-gray-500">{exp.location}</p>
-                          </div>
-                        </div>
-                        <p className="text-gray-300 mb-4">{exp.description}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {exp.technologies.map((tech) => (
-                            <Badge
-                              key={tech}
-                              variant="outline"
-                              className="bg-purple-500/10 text-purple-300 border-purple-500/30"
-                            >
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
+                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                      <h3 className="text-xl font-semibold">Senior Frontend Developer</h3>
+                      <div className="mt-2 md:mt-0">
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">2021 - Present</Badge>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 mb-4">TechCorp Inc.</p>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-purple-400">•</span>
+                        <span>
+                          Led the frontend development team in building responsive web applications using React,
+                          TypeScript, and modern CSS frameworks.
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-purple-400">•</span>
+                        <span>
+                          Implemented state management solutions with Redux and Context API, improving application
+                          performance by 40%.
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-purple-400">•</span>
+                        <span>
+                          Collaborated with UX/UI designers to create intuitive user interfaces and seamless user
+                          experiences.
+                        </span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                      <h3 className="text-xl font-semibold">Mobile Developer</h3>
+                      <div className="mt-2 md:mt-0">
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">2019 - 2021</Badge>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 mb-4">AppWorks Solutions</p>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-blue-400">•</span>
+                        <span>
+                          Developed cross-platform mobile applications using React Native and Expo for iOS and Android
+                          platforms.
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-blue-400">•</span>
+                        <span>
+                          Integrated RESTful APIs and implemented offline-first functionality for seamless user
+                          experience.
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-blue-400">•</span>
+                        <span>
+                          Optimized application performance and reduced load times by 50% through code refactoring and
+                          implementing best practices.
+                        </span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                      <h3 className="text-xl font-semibold">Web Developer</h3>
+                      <div className="mt-2 md:mt-0">
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">
+                          2017 - 2019
+                        </Badge>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 mb-4">Digital Creations</p>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-emerald-400">•</span>
+                        <span>
+                          Built responsive websites and web applications using HTML, CSS, JavaScript, and jQuery.
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-emerald-400">•</span>
+                        <span>
+                          Collaborated with backend developers to integrate frontend interfaces with server-side logic.
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-1 text-emerald-400">•</span>
+                        <span>
+                          Implemented responsive design principles to ensure optimal viewing experience across devices.
+                        </span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
               </div>
-            </section>
+            </motion.section>
 
             {/* Education Section */}
-            <section>
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <div className="flex items-center mb-6">
-                <GraduationCap className="h-6 w-6 text-blue-500 mr-3" />
+                <GraduationCap className="h-6 w-6 mr-3 text-blue-500" />
                 <h2 className="text-2xl font-bold">Education</h2>
               </div>
 
               <div className="space-y-6">
-                {education.map((edu, index) => (
-                  <motion.div
-                    key={edu.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
-                      <CardContent className="p-6">
-                        <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                          <div>
-                            <h3 className="text-xl font-semibold">{edu.degree}</h3>
-                            <p className="text-blue-400">{edu.institution}</p>
-                          </div>
-                          <div className="mt-2 md:mt-0 text-right">
-                            <p className="text-gray-400">{edu.period}</p>
-                            <p className="text-sm text-gray-500">{edu.location}</p>
-                          </div>
-                        </div>
-                        <p className="text-gray-300">{edu.description}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
+                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                      <h3 className="text-xl font-semibold">Master of Computer Science</h3>
+                      <div className="mt-2 md:mt-0">
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">2015 - 2017</Badge>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 mb-4">Stanford University</p>
+                    <p className="text-gray-300">
+                      Specialized in Human-Computer Interaction and Software Engineering. Graduated with honors.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                      <h3 className="text-xl font-semibold">Bachelor of Science in Computer Science</h3>
+                      <div className="mt-2 md:mt-0">
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">2011 - 2015</Badge>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 mb-4">University of California, Berkeley</p>
+                    <p className="text-gray-300">
+                      Focused on software development and web technologies. Participated in multiple hackathons and
+                      coding competitions.
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
-            </section>
+            </motion.section>
 
             {/* Skills Section */}
-            <section>
-              <h2 className="text-2xl font-bold mb-6">Technical Skills</h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800 h-full">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-semibold mb-4 text-purple-400">Frontend Development</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {skills.frontend.map((skill) => (
-                          <Badge
-                            key={skill}
-                            className="bg-purple-500/10 text-purple-300 border-purple-500/30"
-                            variant="outline"
-                          >
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                  <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800 h-full">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-semibold mb-4 text-blue-400">Mobile Development</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {skills.mobile.map((skill) => (
-                          <Badge
-                            key={skill}
-                            className="bg-blue-500/10 text-blue-300 border-blue-500/30"
-                            variant="outline"
-                          >
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800 h-full">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-semibold mb-4 text-emerald-400">Backend Development</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {skills.backend.map((skill) => (
-                          <Badge
-                            key={skill}
-                            className="bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
-                            variant="outline"
-                          >
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800 h-full">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-semibold mb-4 text-amber-400">Tools & Methodologies</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {skills.tools.map((skill) => (
-                          <Badge
-                            key={skill}
-                            className="bg-amber-500/10 text-amber-300 border-amber-500/30"
-                            variant="outline"
-                          >
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </div>
-            </section>
-
-            {/* Certifications Section */}
-            <section>
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
               <div className="flex items-center mb-6">
-                <Award className="h-6 w-6 text-emerald-500 mr-3" />
-                <h2 className="text-2xl font-bold">Certifications</h2>
+                <Code className="h-6 w-6 mr-3 text-emerald-500" />
+                <h2 className="text-2xl font-bold">Technical Skills</h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {certifications.map((cert, index) => (
-                  <motion.div
-                    key={cert.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
-                      <CardContent className="p-4">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-medium">{cert.name}</h3>
-                            <p className="text-sm text-gray-400">{cert.issuer}</p>
-                          </div>
-                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-300 border-emerald-500/30">
-                            {cert.date}
-                          </Badge>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+              <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800">
+                <CardContent className="p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Frontend Development</h3>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">React</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">TypeScript</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">JavaScript</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">HTML5</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">CSS3</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">Tailwind CSS</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">Next.js</Badge>
+                        <Badge className="bg-purple-500/20 text-purple-300 hover:bg-purple-500/30">Redux</Badge>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Mobile Development</h3>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">React Native</Badge>
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">Expo</Badge>
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">iOS</Badge>
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">Android</Badge>
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">Mobile UI/UX</Badge>
+                        <Badge className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">Push Notifications</Badge>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Backend & Database</h3>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">Node.js</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">Express</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">Flask</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">C#</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">.NET</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">MongoDB</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">Firebase</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">SQL</Badge>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Tools & Others</h3>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Git</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Docker</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">CI/CD</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Azure</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">AWS</Badge>
+                        <Badge className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Testing</Badge>
+                        <Badge className="bg-amber\
+\
