@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs"
 
 export default function SkillsSection() {
-  const [activeTab, setActiveTab] = useState("frontend")
+ <Tabs defaultValue="frontend" className="w-full">
 
   const skills = {
     frontend: [
