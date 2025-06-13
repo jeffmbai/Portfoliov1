@@ -43,7 +43,7 @@ export default function ProjectCard({
       >
         <div className="relative overflow-hidden aspect-video">
           <img
-            src={image || "/placeholder.svg"}
+            src={image || "/placeholder.png"}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-500 ease-in-out"
             style={{
