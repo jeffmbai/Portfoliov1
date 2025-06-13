@@ -46,8 +46,8 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
         POINTERS_SIZE: 10,
       }
 
-      // Use the simulation function instead of constructor
-      fluidInstanceRef.current = WebGLFluidEnhanced.simulation(canvas, config)
+      // Corrected: Call WebGLFluidEnhanced directly as a function
+      fluidInstanceRef.current = WebGLFluidEnhanced(canvas, config)
 
       if (onInstanceReady) {
         onInstanceReady(fluidInstanceRef.current)
