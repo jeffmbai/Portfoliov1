@@ -32,7 +32,19 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
 
   const createSplats = () => {
     if (fluidInstance) {
-      fluidInstance.multipleSplats(5)
+      // Create multiple splats at random positions
+      for (let i = 0; i < 5; i++) {
+        const x = Math.random() * window.innerWidth
+        const y = Math.random() * window.innerHeight
+        const dx = (Math.random() - 0.5) * 10
+        const dy = (Math.random() - 0.5) * 10
+        const color = {
+          r: Math.random() * 0.5 + 0.2,
+          g: Math.random() * 0.5 + 0.2,
+          b: Math.random() * 0.5 + 0.5,
+        }
+        fluidInstance.splat(x, y, dx, dy, color)
+      }
     }
   }
 
@@ -46,27 +58,24 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
     setConfig((prev) => ({ ...prev, [key]: value }))
 
     if (fluidInstance) {
-      const configUpdate: any = {}
-
+      // Update the configuration
       switch (key) {
         case "curl":
-          configUpdate.curl = value
+          fluidInstance.curl = value
           break
         case "density":
-          configUpdate.densityDissipation = value
+          fluidInstance.densityDissipation = value
           break
         case "brightness":
-          configUpdate.brightness = value
+          fluidInstance.brightness = value
           break
         case "bloomIntensity":
-          configUpdate.bloomIntensity = value
+          fluidInstance.bloomIntensity = value
           break
         case "sunrays":
-          configUpdate.sunrays = value
+          fluidInstance.sunrays = value
           break
       }
-
-      fluidInstance.setConfig(configUpdate)
     }
   }
 

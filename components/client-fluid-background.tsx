@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import WebGLFluidEnhanced from "webgl-fluid-enhanced"
+import webGLFluidEnhanced from "webgl-fluid-enhanced"
 
 interface ClientFluidBackgroundProps {
   onInstanceReady?: (instance: any) => void
@@ -9,18 +9,13 @@ interface ClientFluidBackgroundProps {
 
 export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const fluidRef = useRef<WebGLFluidEnhanced | null>(null)
   const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
     if (!canvasRef.current) return
 
-    // Create a new WebGLFluidEnhanced instance
-    const fluid = new WebGLFluidEnhanced()
-    fluidRef.current = fluid
-
-    // Configure the simulation
-    fluid.setConfig({
+    // Initialize the simulation with the canvas element
+    const config = {
       // Core simulation settings from user request
       pressureIterations: 10,
       curl: 10,
@@ -49,25 +44,32 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       sunrays: true,
       sunraysResolution: 196,
       sunraysWeight: 1.0,
-    })
+    }
 
-    // Start the simulation
-    fluid.start()
+    // Initialize the simulation
+    webGLFluidEnhanced.simulation(canvasRef.current, config)
     setIsInitialized(true)
 
     // Expose the fluid instance to the parent component
     if (onInstanceReady) {
-      onInstanceReady(fluid)
+      onInstanceReady(webGLFluidEnhanced)
     }
 
     // Create initial splats for visual interest when page loads
     setTimeout(() => {
-      fluid.multipleSplats(5)
+      for (let i = 0; i < 5; i++) {
+        const x = Math.random() * window.innerWidth
+        const y = Math.random() * window.innerHeight
+        const dx = (Math.random() - 0.5) * 10
+        const dy = (Math.random() - 0.5) * 10
+        const color = getRandomColorFromPalette()
+        webGLFluidEnhanced.splat(x, y, dx, dy, color)
+      }
     }, 200)
 
     // Handle mouse movement to create splats
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isInitialized || !fluidRef.current) return
+      if (!isInitialized) return
 
       // Calculate velocity based on mouse movement
       const x = e.clientX
@@ -75,7 +77,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
       // Create a splat at the mouse position with random color
       const randomColor = getRandomColorFromPalette()
-      fluidRef.current.splatAtLocation(x, y, 0, 0, randomColor)
+      webGLFluidEnhanced.splat(x, y, 0, 0, randomColor)
     }
 
     // Add throttled mouse move event listener
@@ -106,9 +108,6 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     return () => {
       window.removeEventListener("mousemove", throttledMouseMove)
       window.removeEventListener("resize", handleResize)
-      if (fluidRef.current) {
-        fluidRef.current.stop()
-      }
     }
   }, [onInstanceReady])
 
