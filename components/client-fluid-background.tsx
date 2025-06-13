@@ -52,9 +52,8 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     }
 
     try {
-      // Initialize the WebGLFluidEnhanced
-      // Instead of directly using the constructor, use the exported function
-      fluidInstanceRef.current = WebGLFluidEnhanced.simulation(canvas, config)
+      // Initialize the WebGLFluidEnhanced using the constructor
+      fluidInstanceRef.current = new WebGLFluidEnhanced(canvas, config)
       isInitializedRef.current = true
 
       // Notify parent component
@@ -64,20 +63,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
       // Create initial splats
       setTimeout(() => {
-        if (fluidInstanceRef.current && typeof fluidInstanceRef.current.addSplat === "function") {
-          for (let i = 0; i < 3; i++) {
-            const x = Math.random()
-            const y = Math.random()
-            const dx = (Math.random() - 0.5) * 10
-            const dy = (Math.random() - 0.5) * 10
-            const color = {
-              r: Math.random() * 0.5 + 0.5,
-              g: Math.random() * 0.5 + 0.5,
-              b: Math.random() * 0.5 + 0.5,
-            }
-            fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
-          }
-        }
+        createRandomSplats(5)
       }, 100)
 
       // Handle mouse movement
@@ -86,19 +72,17 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       let lastTime = 0
 
       const handleMouseMove = (e: MouseEvent) => {
-        if (!fluidInstanceRef.current || typeof fluidInstanceRef.current.addSplat !== "function") return
-
         const now = Date.now()
         if (now - lastTime < 16) return // Limit to ~60 fps
 
-        // Convert mouse coordinates to normalized coordinates (0-1)
+        // Get mouse position relative to canvas
         const rect = canvas.getBoundingClientRect()
-        const x = (e.clientX - rect.left) / rect.width
-        const y = (e.clientY - rect.top) / rect.height
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
 
         // Calculate velocity based on movement
-        const dx = (x - lastX) * 10
-        const dy = (y - lastY) * 10
+        const dx = (x - lastX) * 0.1
+        const dy = (y - lastY) * 0.1
 
         lastX = x
         lastY = y
@@ -111,9 +95,59 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
         }
 
         try {
-          fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
+          // Try different methods to create splats
+          if (fluidInstanceRef.current) {
+            // Method 1: Try direct property access
+            if (typeof fluidInstanceRef.current.addSplat === "function") {
+              fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
+            }
+            // Method 2: Try accessing through config
+            else if (
+              fluidInstanceRef.current.config &&
+              typeof fluidInstanceRef.current.config.addSplat === "function"
+            ) {
+              fluidInstanceRef.current.config.addSplat(x, y, dx, dy, color)
+            }
+            // Method 3: Try using the splat method directly
+            else if (typeof fluidInstanceRef.current.splat === "function") {
+              fluidInstanceRef.current.splat(x, y, dx, dy, color)
+            }
+          }
         } catch (error) {
           console.error("Error adding splat:", error)
+        }
+      }
+
+      // Function to create random splats
+      function createRandomSplats(count: number) {
+        if (!fluidInstanceRef.current) return
+
+        for (let i = 0; i < count; i++) {
+          const x = Math.random() * canvas.width
+          const y = Math.random() * canvas.height
+          const dx = (Math.random() - 0.5) * 10
+          const dy = (Math.random() - 0.5) * 10
+          const color = {
+            r: Math.random() * 0.5 + 0.5,
+            g: Math.random() * 0.5 + 0.5,
+            b: Math.random() * 0.5 + 0.5,
+          }
+
+          try {
+            // Try different methods to create splats
+            if (typeof fluidInstanceRef.current.addSplat === "function") {
+              fluidInstanceRef.current.addSplat(x, y, dx, dy, color)
+            } else if (
+              fluidInstanceRef.current.config &&
+              typeof fluidInstanceRef.current.config.addSplat === "function"
+            ) {
+              fluidInstanceRef.current.config.addSplat(x, y, dx, dy, color)
+            } else if (typeof fluidInstanceRef.current.splat === "function") {
+              fluidInstanceRef.current.splat(x, y, dx, dy, color)
+            }
+          } catch (error) {
+            console.error("Error creating random splat:", error)
+          }
         }
       }
 

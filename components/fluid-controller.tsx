@@ -24,32 +24,53 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
   })
 
   const togglePause = () => {
-    if (!fluidInstance || typeof fluidInstance.setPaused !== "function") return
+    if (!fluidInstance) return
 
-    const newPausedState = !isPaused
-    fluidInstance.setPaused(newPausedState)
-    setIsPaused(newPausedState)
+    try {
+      // Try different ways to pause the simulation
+      if (typeof fluidInstance.PAUSED !== "undefined") {
+        fluidInstance.PAUSED = !fluidInstance.PAUSED
+        setIsPaused(fluidInstance.PAUSED)
+      } else if (fluidInstance.config && typeof fluidInstance.config.PAUSED !== "undefined") {
+        fluidInstance.config.PAUSED = !fluidInstance.config.PAUSED
+        setIsPaused(fluidInstance.config.PAUSED)
+      } else if (typeof fluidInstance.setPaused === "function") {
+        const newPausedState = !isPaused
+        fluidInstance.setPaused(newPausedState)
+        setIsPaused(newPausedState)
+      }
+    } catch (error) {
+      console.error("Error toggling pause:", error)
+    }
   }
 
   const createSplats = () => {
-    if (!fluidInstance || typeof fluidInstance.addSplat !== "function") return
+    if (!fluidInstance) return
 
-    // Create multiple splats at random positions
-    for (let i = 0; i < 5; i++) {
-      const x = Math.random()
-      const y = Math.random()
-      const dx = (Math.random() - 0.5) * 10
-      const dy = (Math.random() - 0.5) * 10
-      const color = {
-        r: Math.random() * 0.5 + 0.5,
-        g: Math.random() * 0.5 + 0.5,
-        b: Math.random() * 0.5 + 0.5,
+    try {
+      // Create multiple splats at random positions
+      for (let i = 0; i < 5; i++) {
+        const x = Math.random() * window.innerWidth
+        const y = Math.random() * window.innerHeight
+        const dx = (Math.random() - 0.5) * 10
+        const dy = (Math.random() - 0.5) * 10
+        const color = {
+          r: Math.random() * 0.5 + 0.5,
+          g: Math.random() * 0.5 + 0.5,
+          b: Math.random() * 0.5 + 0.5,
+        }
+
+        // Try different methods to create splats
+        if (typeof fluidInstance.addSplat === "function") {
+          fluidInstance.addSplat(x, y, dx, dy, color)
+        } else if (fluidInstance.config && typeof fluidInstance.config.addSplat === "function") {
+          fluidInstance.config.addSplat(x, y, dx, dy, color)
+        } else if (typeof fluidInstance.splat === "function") {
+          fluidInstance.splat(x, y, dx, dy, color)
+        }
       }
-      try {
-        fluidInstance.addSplat(x, y, dx, dy, color)
-      } catch (error) {
-        console.error("Error adding splat:", error)
-      }
+    } catch (error) {
+      console.error("Error creating splats:", error)
     }
   }
 
@@ -58,31 +79,51 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
 
     if (!fluidInstance) return
 
-    // Update the configuration
     try {
+      // Update the configuration
       switch (key) {
         case "curl":
-          if (typeof fluidInstance.setCurl === "function") {
+          if (typeof fluidInstance.CURL !== "undefined") {
+            fluidInstance.CURL = value
+          } else if (fluidInstance.config && typeof fluidInstance.config.CURL !== "undefined") {
+            fluidInstance.config.CURL = value
+          } else if (typeof fluidInstance.setCurl === "function") {
             fluidInstance.setCurl(value)
           }
           break
         case "density":
-          if (typeof fluidInstance.setDensityDissipation === "function") {
+          if (typeof fluidInstance.DENSITY_DISSIPATION !== "undefined") {
+            fluidInstance.DENSITY_DISSIPATION = value
+          } else if (fluidInstance.config && typeof fluidInstance.config.DENSITY_DISSIPATION !== "undefined") {
+            fluidInstance.config.DENSITY_DISSIPATION = value
+          } else if (typeof fluidInstance.setDensityDissipation === "function") {
             fluidInstance.setDensityDissipation(value)
           }
           break
         case "velocity":
-          if (typeof fluidInstance.setVelocityDissipation === "function") {
+          if (typeof fluidInstance.VELOCITY_DISSIPATION !== "undefined") {
+            fluidInstance.VELOCITY_DISSIPATION = value
+          } else if (fluidInstance.config && typeof fluidInstance.config.VELOCITY_DISSIPATION !== "undefined") {
+            fluidInstance.config.VELOCITY_DISSIPATION = value
+          } else if (typeof fluidInstance.setVelocityDissipation === "function") {
             fluidInstance.setVelocityDissipation(value)
           }
           break
         case "bloom":
-          if (typeof fluidInstance.setBloom === "function") {
+          if (typeof fluidInstance.BLOOM !== "undefined") {
+            fluidInstance.BLOOM = value
+          } else if (fluidInstance.config && typeof fluidInstance.config.BLOOM !== "undefined") {
+            fluidInstance.config.BLOOM = value
+          } else if (typeof fluidInstance.setBloom === "function") {
             fluidInstance.setBloom(value)
           }
           break
         case "sunrays":
-          if (typeof fluidInstance.setSunrays === "function") {
+          if (typeof fluidInstance.SUNRAYS !== "undefined") {
+            fluidInstance.SUNRAYS = value
+          } else if (fluidInstance.config && typeof fluidInstance.config.SUNRAYS !== "undefined") {
+            fluidInstance.config.SUNRAYS = value
+          } else if (typeof fluidInstance.setSunrays === "function") {
             fluidInstance.setSunrays(value)
           }
           break
