@@ -21,13 +21,8 @@ export default function AboutSection() {
   }
 
   return (
-    <section id="about" className="py-24 bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
-        <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-purple-700 blur-[100px]" />
-        <div className="absolute bottom-10 right-10 w-64 h-64 rounded-full bg-blue-700 blur-[100px]" />
-      </div>
-
+    <section id="about" className="py-24 relative overflow-hidden">
+      {/* Remove the background gradient and use transparent backgrounds */}
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -55,7 +50,7 @@ export default function AboutSection() {
           >
             <div className="relative h-full">
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg blur-sm opacity-75"></div>
-              <div className="relative h-full bg-gray-900 rounded-lg overflow-hidden border border-white/10">
+              <div className="relative h-full bg-black/50 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10">
                 <div className="p-6 h-full flex flex-col">
                   <h3 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
                     My Journey
@@ -86,7 +81,7 @@ export default function AboutSection() {
           >
             <div className="relative h-full">
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-emerald-600 rounded-lg blur-sm opacity-75"></div>
-              <div className="relative h-full bg-gray-900 rounded-lg overflow-hidden border border-white/10">
+              <div className="relative h-full bg-black/50 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10">
                 <div className="p-6 h-full flex flex-col">
                   <h3 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
                     What I Do
@@ -127,7 +122,7 @@ export default function AboutSection() {
           >
             <div className="relative h-full">
               <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-purple-600 rounded-lg blur-sm opacity-75"></div>
-              <div className="relative h-full bg-gray-900 rounded-lg overflow-hidden border border-white/10">
+              <div className="relative h-full bg-black/50 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10">
                 <div className="p-6 h-full flex flex-col">
                   <h3 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-purple-400">
                     My Approach
@@ -156,7 +151,7 @@ export default function AboutSection() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12"
         >
           <motion.div variants={itemVariants}>
-            <Card className="bg-gray-900/50 border-gray-800 hover:border-purple-500/50 transition-all duration-300 h-full">
+            <Card className="bg-black/50 backdrop-blur-sm border-gray-800 hover:border-purple-500/50 transition-all duration-300 h-full">
               <CardContent className="p-6 text-center">
                 <div className="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-purple-500/20 mb-4">
                   <Code className="h-7 w-7 text-purple-400" />
@@ -170,7 +165,7 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-gray-900/50 border-gray-800 hover:border-blue-500/50 transition-all duration-300 h-full">
+            <Card className="bg-black/50 backdrop-blur-sm border-gray-800 hover:border-blue-500/50 transition-all duration-300 h-full">
               <CardContent className="p-6 text-center">
                 <div className="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-blue-500/20 mb-4">
                   <Smartphone className="h-7 w-7 text-blue-400" />
@@ -184,7 +179,7 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-gray-900/50 border-gray-800 hover:border-emerald-500/50 transition-all duration-300 h-full">
+            <Card className="bg-black/50 backdrop-blur-sm border-gray-800 hover:border-emerald-500/50 transition-all duration-300 h-full">
               <CardContent className="p-6 text-center">
                 <div className="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-emerald-500/20 mb-4">
                   <Server className="h-7 w-7 text-emerald-400" />
@@ -198,7 +193,7 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-gray-900/50 border-gray-800 hover:border-amber-500/50 transition-all duration-300 h-full">
+            <Card className="bg-black/50 backdrop-blur-sm border-gray-800 hover:border-amber-500/50 transition-all duration-300 h-full">
               <CardContent className="p-6 text-center">
                 <div className="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-amber-500/20 mb-4">
                   <Database className="h-7 w-7 text-amber-400" />
@@ -212,7 +207,7 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-gray-900/50 border-gray-800 hover:border-rose-500/50 transition-all duration-300 h-full">
+            <Card className="bg-black/50 backdrop-blur-sm border-gray-800 hover:border-rose-500/50 transition-all duration-300 h-full">
               <CardContent className="p-6 text-center">
                 <div className="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-rose-500/20 mb-4">
                   <Globe className="h-7 w-7 text-rose-400" />
@@ -226,7 +221,7 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-gray-900/50 border-gray-800 hover:border-violet-500/50 transition-all duration-300 h-full">
+            <Card className="bg-black/50 backdrop-blur-sm border-gray-800 hover:border-violet-500/50 transition-all duration-300 h-full">
               <CardContent className="p-6 text-center">
                 <div className="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-violet-500/20 mb-4">
                   <Layers className="h-7 w-7 text-violet-400" />

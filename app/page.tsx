@@ -27,12 +27,12 @@ export default function Home() {
   }
 
   return (
-    <main className="relative min-h-screen" ref={containerRef}>
+    <div className="relative" ref={containerRef}>
       {/* Hero Section */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden">
         <motion.div
           style={{ opacity }}
-          className="absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-black/20 to-transparent"
+          className="absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-black/20 to-transparent pointer-events-none"
         />
 
         <div className="container relative z-20 px-4 md:px-6">
@@ -121,19 +121,19 @@ export default function Home() {
         </div>
       </div>
 
-      {/* About Section */}
+      {/* About Section - Make sure it's transparent to show the fluid background */}
       <AboutSection />
 
-      {/* Skills Section */}
+      {/* Skills Section - Make sure it's transparent to show the fluid background */}
       <SkillsSection />
 
-      {/* Projects Section */}
+      {/* Projects Section - Make sure it's transparent to show the fluid background */}
       <div ref={projectsRef}>
         <ProjectsSection />
       </div>
 
-      {/* Contact Section */}
+      {/* Contact Section - Make sure it's transparent to show the fluid background */}
       <ContactSection />
-    </main>
+    </div>
   )
 }

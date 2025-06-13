@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import FluidBackground from "@/components/fluid-background"
-import FluidController from "@/components/fluid-controller"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -27,12 +26,13 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen bg-black text-white`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {/* Fluid background that will appear on all pages */}
+          {/* Fluid background positioned at the root level */}
           <FluidBackground />
-          <FluidController fluidInstance={null} />
-          <Header />
-          <div className="relative z-10">{children}</div>
-          <Footer />
+          <div className="relative z-10 flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>

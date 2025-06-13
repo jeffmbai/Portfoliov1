@@ -1,47 +1,47 @@
 "use client"
 
-import { Suspense } from "react"
-import dynamic from "next/dynamic"
+import { useEffect, useRef } from "react"
+import { createFluidSimulation } from "@/lib/fluid-simulation"
 
-// Create a global variable to store the fluid instance
-let globalFluidInstance: any = null
+export default function FluidBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-// Function to get the global fluid instance
-export function getFluidInstance() {
-  return globalFluidInstance
-}
+  useEffect(() => {
+    if (!canvasRef.current) return
 
-interface FluidBackgroundProps {
-  onInstanceReady?: (instance: any) => void
-}
+    const canvas = canvasRef.current
+    const simulation = createFluidSimulation(canvas)
 
-// Import the fluid background component with SSR disabled
-const ClientFluidBackground = dynamic(() => import("./client-fluid-background"), {
-  ssr: false,
-  loading: () => <BackgroundPlaceholder />,
-})
-
-// Simple placeholder while the WebGL component loads
-function BackgroundPlaceholder() {
-  return (
-    <div className="fixed top-0 left-0 w-full h-full z-0 bg-black">
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-700/20 blur-[100px]" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-700/20 blur-[100px]" />
-    </div>
-  )
-}
-
-export default function FluidBackground({ onInstanceReady }: FluidBackgroundProps) {
-  const handleInstanceReady = (instance: any) => {
-    globalFluidInstance = instance
-    if (onInstanceReady) {
-      onInstanceReady(instance)
+    // Make sure canvas covers the entire viewport
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      simulation.resize()
     }
-  }
+
+    // Initialize
+    resizeCanvas()
+    window.addEventListener("resize", resizeCanvas)
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", resizeCanvas)
+      simulation.destroy()
+    }
+  }, [])
 
   return (
-    <Suspense fallback={<BackgroundPlaceholder />}>
-      <ClientFluidBackground onInstanceReady={handleInstanceReady} />
-    </Suspense>
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full z-0"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none", // Allow clicking through the canvas
+      }}
+    />
   )
 }
