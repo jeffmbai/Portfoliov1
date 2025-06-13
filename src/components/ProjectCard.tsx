@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
 import { Card, CardContent } from "./ui/card"
 import { Badge } from "./ui/badge"
+import { Button } from "./ui/button" // Added this import
 import type { Project } from "../lib/types"
 
 interface ProjectCardProps {
@@ -63,13 +64,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 <ExternalLink className="h-4 w-4 mr-1" /> Demo
               </a>
             )}
-           <Button
-  variant="link"
-  className="text-sm flex items-center text-blue-400 hover:text-blue-300 transition-colors p-0 h-auto"
-  onClick={() => window.open('https://github.com/yourrepo', '_blank')}
->
-  <Github className="h-4 w-4 mr-1" /> Code
-</Button>
+            <Button
+              variant="link"
+              className="text-sm flex items-center text-blue-400 hover:text-blue-300 transition-colors p-0 h-auto"
+              onClick={() => window.open('https://github.com/yourrepo', '_blank')}
+            >
+              <Github className="h-4 w-4 mr-1" /> Code
+            </Button>
           </div>
         </CardContent>
       </Card>
