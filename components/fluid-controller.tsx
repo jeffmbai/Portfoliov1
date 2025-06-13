@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Settings, X, Play, Pause, Download, RefreshCw } from "lucide-react"
+import { Settings, X, Play, Pause, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
@@ -16,22 +16,29 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
   const [isOpen, setIsOpen] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [config, setConfig] = useState({
-    curl: 10,
-    density: 0.97,
-    brightness: 0.1,
-    bloomIntensity: 0.1,
+    curl: 30,
+    density: 0.98,
+    velocity: 0.99,
+    pressure: 20,
+    bloom: true,
     sunrays: true,
   })
 
   const togglePause = () => {
-    if (fluidInstance && typeof fluidInstance.paused !== "undefined") {
-      fluidInstance.paused = !fluidInstance.paused
-      setIsPaused(fluidInstance.paused)
+    if (!fluidInstance) return
+
+    try {
+      fluidInstance.PAUSED = !fluidInstance.PAUSED
+      setIsPaused(fluidInstance.PAUSED)
+    } catch (error) {
+      console.error("Error toggling pause:", error)
     }
   }
 
   const createSplats = () => {
-    if (fluidInstance && fluidInstance.splat) {
+    if (!fluidInstance || typeof fluidInstance.splat !== "function") return
+
+    try {
       // Create multiple splats at random positions
       for (let i = 0; i < 5; i++) {
         const x = Math.random() * window.innerWidth
@@ -39,56 +46,46 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
         const dx = (Math.random() - 0.5) * 10
         const dy = (Math.random() - 0.5) * 10
         const color = {
-          r: Math.random() * 0.5 + 0.2,
-          g: Math.random() * 0.5 + 0.2,
+          r: Math.random() * 0.5 + 0.5,
+          g: Math.random() * 0.5 + 0.5,
           b: Math.random() * 0.5 + 0.5,
         }
         fluidInstance.splat(x, y, dx, dy, color)
       }
-    }
-  }
-
-  const downloadScreenshot = () => {
-    if (fluidInstance && fluidInstance.canvas) {
-      const link = document.createElement("a")
-      link.download = "fluid-screenshot.png"
-      link.href = fluidInstance.canvas.toDataURL()
-      link.click()
+    } catch (error) {
+      console.error("Error creating splats:", error)
     }
   }
 
   const updateConfig = (key: string, value: number | boolean) => {
     setConfig((prev) => ({ ...prev, [key]: value }))
 
-    if (fluidInstance) {
+    if (!fluidInstance) return
+
+    try {
       // Update the configuration
       switch (key) {
         case "curl":
-          if (typeof fluidInstance.config !== "undefined") {
-            fluidInstance.config.CURL = value
-          }
+          fluidInstance.CURL = value
           break
         case "density":
-          if (typeof fluidInstance.config !== "undefined") {
-            fluidInstance.config.DENSITY_DISSIPATION = value
-          }
+          fluidInstance.DENSITY_DISSIPATION = value
           break
-        case "brightness":
-          if (typeof fluidInstance.config !== "undefined") {
-            fluidInstance.config.BRIGHTNESS = value
-          }
+        case "velocity":
+          fluidInstance.VELOCITY_DISSIPATION = value
           break
-        case "bloomIntensity":
-          if (typeof fluidInstance.config !== "undefined") {
-            fluidInstance.config.BLOOM_INTENSITY = value
-          }
+        case "pressure":
+          fluidInstance.PRESSURE_ITERATIONS = value
+          break
+        case "bloom":
+          fluidInstance.BLOOM = value
           break
         case "sunrays":
-          if (typeof fluidInstance.config !== "undefined") {
-            fluidInstance.config.SUNRAYS = value
-          }
+          fluidInstance.SUNRAYS = value
           break
       }
+    } catch (error) {
+      console.error("Error updating config:", error)
     }
   }
 
@@ -147,38 +144,43 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <Label className="text-xs">Brightness</Label>
-                <span className="text-xs text-gray-400">{config.brightness.toFixed(2)}</span>
+                <Label className="text-xs">Velocity</Label>
+                <span className="text-xs text-gray-400">{config.velocity.toFixed(2)}</span>
               </div>
               <Slider
-                value={[config.brightness]}
-                min={0}
+                value={[config.velocity]}
+                min={0.9}
                 max={1}
-                step={0.05}
-                onValueChange={(value) => updateConfig("brightness", value[0])}
+                step={0.01}
+                onValueChange={(value) => updateConfig("velocity", value[0])}
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <Label className="text-xs">Bloom Intensity</Label>
-                <span className="text-xs text-gray-400">{config.bloomIntensity.toFixed(2)}</span>
+                <Label className="text-xs">Pressure Iterations</Label>
+                <span className="text-xs text-gray-400">{config.pressure}</span>
               </div>
               <Slider
-                value={[config.bloomIntensity]}
-                min={0}
-                max={2}
-                step={0.05}
-                onValueChange={(value) => updateConfig("bloomIntensity", value[0])}
+                value={[config.pressure]}
+                min={1}
+                max={50}
+                step={1}
+                onValueChange={(value) => updateConfig("pressure", value[0])}
               />
             </div>
 
             <div className="flex items-center justify-between">
-              <Label className="text-xs">Sunrays</Label>
+              <Label className="text-xs">Bloom Effect</Label>
+              <Switch checked={config.bloom} onCheckedChange={(checked) => updateConfig("bloom", checked)} />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <Label className="text-xs">Sunrays Effect</Label>
               <Switch checked={config.sunrays} onCheckedChange={(checked) => updateConfig("sunrays", checked)} />
             </div>
 
-            <div className="grid grid-cols-3 gap-2 pt-2">
+            <div className="grid grid-cols-2 gap-2 pt-2">
               <Button variant="outline" size="sm" className="bg-black/50 border-gray-700" onClick={togglePause}>
                 {isPaused ? <Play className="h-4 w-4 mr-1" /> : <Pause className="h-4 w-4 mr-1" />}
                 {isPaused ? "Play" : "Pause"}
@@ -187,11 +189,6 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
               <Button variant="outline" size="sm" className="bg-black/50 border-gray-700" onClick={createSplats}>
                 <RefreshCw className="h-4 w-4 mr-1" />
                 Splat
-              </Button>
-
-              <Button variant="outline" size="sm" className="bg-black/50 border-gray-700" onClick={downloadScreenshot}>
-                <Download className="h-4 w-4 mr-1" />
-                Save
               </Button>
             </div>
           </div>

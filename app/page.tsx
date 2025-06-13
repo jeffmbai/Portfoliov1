@@ -8,6 +8,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import FluidBackground from "@/components/fluid-background"
 import FluidController from "@/components/fluid-controller"
+import WebGLDebug from "@/components/webgl-debug"
 import ProjectsSection from "@/components/sections/projects-section"
 import SkillsSection from "@/components/sections/skills-section"
 import AboutSection from "@/components/sections/about-section"
@@ -33,12 +34,14 @@ export default function Home() {
 
   // Use useCallback to prevent unnecessary re-renders
   const handleFluidInstanceReady = useCallback((instance: any) => {
+    console.log("Fluid instance ready:", instance)
     setFluidInstance(instance)
   }, [])
 
   return (
     <>
       <FluidBackground onInstanceReady={handleFluidInstanceReady} />
+      <WebGLDebug />
       <Header />
 
       <main className="relative min-h-screen" ref={containerRef}>
