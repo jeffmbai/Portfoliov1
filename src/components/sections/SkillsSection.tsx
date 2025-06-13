@@ -1,182 +1,176 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
-import { Card, CardContent } from "../ui/card"
-
-const frontendSkills = [
-  { name: "React", level: 95 },
-  { name: "TypeScript", level: 90 },
-  { name: "JavaScript", level: 95 },
-  { name: "Tailwind CSS", level: 95 },
-  { name: "HTML5/CSS3", level: 95 },
-  { name: "Redux", level: 85 },
-]
-
-const mobileSkills = [
-  { name: "React Native", level: 90 },
-  { name: "Expo", level: 85 },
-  { name: "iOS Development", level: 80 },
-  { name: "Android Development", level: 80 },
-  { name: "Mobile UI/UX", level: 85 },
-  { name: "Offline Storage", level: 75 },
-]
-
-const backendSkills = [
-  { name: "Flask", level: 70 },
-  { name: ".NET/C#", level: 65 },
-  { name: "Node.js", level: 75 },
-  { name: "Express", level: 70 },
-  { name: "RESTful APIs", level: 85 },
-  { name: "GraphQL", level: 65 },
-]
-
-const databaseSkills = [
-  { name: "Firebase", level: 80 },
-  { name: "MongoDB", level: 75 },
-  { name: "Supabase", level: 80 },
-  { name: "SQL", level: 70 },
-  { name: "NoSQL", level: 75 },
-  { name: "Data Modeling", level: 70 },
-]
-
-const devopsSkills = [
-  { name: "Azure", level: 75 },
-  { name: "DevOps", level: 70 },
-  { name: "CI/CD", level: 75 },
-  { name: "Docker", level: 70 },
-  { name: "Git", level: 85 },
-  { name: "GitHub Actions", level: 75 },
-]
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 
 export default function SkillsSection() {
-  const [activeTab, setActiveTab] = useState("frontend")
-
-  const renderSkills = (skills: { name: string; level: number }[]) => {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {skills.map((skill, index) => (
-          <motion.div
-            key={skill.name}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            viewport={{ once: true }}
-            className="mb-4"
-          >
-            <div className="flex justify-between mb-1">
-              <span className="text-sm font-medium text-white">{skill.name}</span>
-              <span className="text-sm font-medium text-gray-400">{skill.level}%</span>
-            </div>
-            <div className="w-full bg-gray-700 rounded-full h-2.5 overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: `${skill.level}%` }}
-                transition={{ duration: 1, delay: 0.5 }}
-                viewport={{ once: true }}
-                className="h-2.5 rounded-full bg-gradient-to-r from-purple-600 to-blue-600"
-              ></motion.div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    )
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   }
+
+  const skillCategories = [
+    {
+      id: "frontend",
+      title: "Frontend",
+      skills: [
+        { name: "React", level: 95 },
+        { name: "TypeScript", level: 90 },
+        { name: "JavaScript", level: 95 },
+        { name: "HTML/CSS", level: 95 },
+        { name: "Tailwind CSS", level: 90 },
+        { name: "Next.js", level: 85 },
+        { name: "Redux", level: 85 },
+        { name: "Framer Motion", level: 80 },
+      ],
+    },
+    {
+      id: "mobile",
+      title: "Mobile",
+      skills: [
+        { name: "React Native", level: 90 },
+        { name: "Expo", level: 85 },
+        { name: "iOS Development", level: 75 },
+        { name: "Android Development", level: 75 },
+        { name: "Mobile UI/UX", level: 85 },
+        { name: "App Performance", level: 80 },
+        { name: "Push Notifications", level: 75 },
+        { name: "Offline Storage", level: 80 },
+      ],
+    },
+    {
+      id: "backend",
+      title: "Backend",
+      skills: [
+        { name: "Node.js", level: 80 },
+        { name: "Express", level: 80 },
+        { name: "Flask", level: 75 },
+        { name: "C#", level: 70 },
+        { name: ".NET", level: 70 },
+        { name: "RESTful APIs", level: 85 },
+        { name: "GraphQL", level: 75 },
+        { name: "Microservices", level: 70 },
+      ],
+    },
+    {
+      id: "tools",
+      title: "Tools & Others",
+      skills: [
+        { name: "Git", level: 90 },
+        { name: "Docker", level: 75 },
+        { name: "CI/CD", level: 80 },
+        { name: "Azure", level: 75 },
+        { name: "Firebase", level: 85 },
+        { name: "MongoDB", level: 80 },
+        { name: "SQL", level: 75 },
+        { name: "Testing", level: 80 },
+      ],
+    },
+  ]
 
   return (
     <section id="skills" className="py-24 bg-black relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-700 blur-[100px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-700 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-700 blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-700 blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
+          variants={fadeIn}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Skills & Expertise</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">My Skills</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8"></div>
           <p className="max-w-2xl mx-auto text-gray-300 text-lg">
-            My technical toolkit includes a wide range of modern technologies for building web and mobile applications.
+            I've developed a diverse skill set across frontend, mobile, and backend technologies. Here's a breakdown of
+            my technical expertise and proficiency levels.
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
+          variants={fadeIn}
+          className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6 md:p-8"
         >
-          <div className="w-full">
-            <div className="flex justify-center mb-8">
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md inline-flex">
-                <button
-                  onClick={() => setActiveTab("frontend")}
-                  className={`px-4 py-2 text-sm font-medium rounded-md ${
-                    activeTab === "frontend"
-                      ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
+          <Tabs defaultValue="frontend" className="w-full">
+            <TabsList className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8 bg-transparent">
+              {skillCategories.map((category) => (
+                <TabsTrigger
+                  key={category.id}
+                  value={category.id}
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border-0 border border-gray-700 bg-gray-800/50"
                 >
-                  Frontend
-                </button>
-                <button
-                  onClick={() => setActiveTab("mobile")}
-                  className={`px-4 py-2 text-sm font-medium rounded-md ${
-                    activeTab === "mobile"
-                      ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  Mobile
-                </button>
-                <button
-                  onClick={() => setActiveTab("backend")}
-                  className={`px-4 py-2 text-sm font-medium rounded-md ${
-                    activeTab === "backend"
-                      ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  Backend
-                </button>
-                <button
-                  onClick={() => setActiveTab("database")}
-                  className={`px-4 py-2 text-sm font-medium rounded-md ${
-                    activeTab === "database"
-                      ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  Database
-                </button>
-                <button
-                  onClick={() => setActiveTab("devops")}
-                  className={`px-4 py-2 text-sm font-medium rounded-md ${
-                    activeTab === "devops"
-                      ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  DevOps
-                </button>
-              </div>
-            </div>
+                  {category.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-            <Card className="bg-gray-900/30 border-gray-800">
-              <CardContent className="p-6">
-                {activeTab === "frontend" && renderSkills(frontendSkills)}
-                {activeTab === "mobile" && renderSkills(mobileSkills)}
-                {activeTab === "backend" && renderSkills(backendSkills)}
-                {activeTab === "database" && renderSkills(databaseSkills)}
-                {activeTab === "devops" && renderSkills(devopsSkills)}
-              </CardContent>
-            </Card>
+            {skillCategories.map((category) => (
+              <TabsContent key={category.id} value={category.id} className="mt-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {category.skills.map((skill, index) => (
+                    <div key={skill.name} className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium">{skill.name}</span>
+                        <span className="text-xs text-gray-400">{skill.level}%</span>
+                      </div>
+                      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${skill.level}%` }}
+                          transition={{ duration: 1, delay: index * 0.1 }}
+                          viewport={{ once: true }}
+                          className="h-full rounded-full bg-gradient-to-r from-purple-600 to-blue-600"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeIn}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-center"
+        >
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
+            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-2">
+              5+
+            </div>
+            <p className="text-gray-400">Years of Experience</p>
+          </div>
+
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
+            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 mb-2">
+              30+
+            </div>
+            <p className="text-gray-400">Projects Completed</p>
+          </div>
+
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
+            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-amber-400 mb-2">
+              15+
+            </div>
+            <p className="text-gray-400">Happy Clients</p>
+          </div>
+
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
+            <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-rose-400 mb-2">
+              10+
+            </div>
+            <p className="text-gray-400">Technologies Mastered</p>
           </div>
         </motion.div>
       </div>
