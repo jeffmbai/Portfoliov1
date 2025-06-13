@@ -46,8 +46,8 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
         POINTERS_SIZE: 10,
       }
 
-      // Corrected: Call WebGLFluidEnhanced directly as a function
-      fluidInstanceRef.current = WebGLFluidEnhanced(canvas, config)
+      // Use 'new' to create an instance
+      fluidInstanceRef.current = new WebGLFluidEnhanced(canvas, config)
 
       if (onInstanceReady) {
         onInstanceReady(fluidInstanceRef.current)
