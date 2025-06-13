@@ -117,5 +117,5 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     return palette[Math.floor(Math.random() * palette.length)]
   }
 
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 opacity-80" />
+  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" />
 }
