@@ -1,11 +1,9 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown, Code, Smartphone, Database, Server } from "lucide-react"
 import Link from "next/link"
-import FluidBackground from "@/components/fluid-background"
-import FluidController from "@/components/fluid-controller"
 import ProjectsSection from "@/components/sections/projects-section"
 import SkillsSection from "@/components/sections/skills-section"
 import AboutSection from "@/components/sections/about-section"
@@ -16,7 +14,6 @@ import { Badge } from "@/components/ui/badge"
 export default function Home() {
   const projectsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [fluidInstance, setFluidInstance] = useState<any>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -25,21 +22,12 @@ export default function Home() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
 
-  // Function to expose the fluid instance from the child component
-  const handleFluidInstanceReady = (instance: any) => {
-    setFluidInstance(instance)
-  }
-
   const scrollToProjects = () => {
     projectsRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
   return (
     <main className="relative min-h-screen" ref={containerRef}>
-      {/* WebGL Fluid Background - positioned fixed so it stays throughout the page */}
-      <FluidBackground onInstanceReady={handleFluidInstanceReady} />
-      <FluidController fluidInstance={fluidInstance} />
-
       {/* Hero Section */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden">
         <motion.div
@@ -82,7 +70,7 @@ export default function Home() {
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none shadow-lg shadow-purple-900/20"
                 asChild
               >
-                <Link href="#contact">Get in Touch</Link>
+                <Link href="/contact">Get in Touch</Link>
               </Button>
               <Button
                 size="lg"
@@ -133,22 +121,19 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Content Sections with transparent backgrounds to show fluid effect */}
-      <div className="relative z-10">
-        {/* About Section */}
-        <AboutSection />
+      {/* About Section */}
+      <AboutSection />
 
-        {/* Skills Section */}
-        <SkillsSection />
+      {/* Skills Section */}
+      <SkillsSection />
 
-        {/* Projects Section */}
-        <div ref={projectsRef}>
-          <ProjectsSection />
-        </div>
-
-        {/* Contact Section */}
-        <ContactSection />
+      {/* Projects Section */}
+      <div ref={projectsRef}>
+        <ProjectsSection />
       </div>
+
+      {/* Contact Section */}
+      <ContactSection />
     </main>
   )
 }

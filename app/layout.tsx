@@ -3,8 +3,7 @@ import "@/app/globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import ClientLayout from "./page"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,9 +24,7 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen bg-black text-white`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <Header />
-          {children}
-          <Footer />
+          <ClientLayout>{children}</ClientLayout>
         </ThemeProvider>
       </body>
     </html>
