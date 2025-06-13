@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useCallback, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown, Code, Smartphone, Database, Server } from "lucide-react"
 import Link from "next/link"
@@ -31,9 +31,10 @@ export default function Home() {
     projectsRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const handleFluidInstanceReady = (instance: any) => {
+  // Use useCallback to prevent unnecessary re-renders
+  const handleFluidInstanceReady = useCallback((instance: any) => {
     setFluidInstance(instance)
-  }
+  }, [])
 
   return (
     <>

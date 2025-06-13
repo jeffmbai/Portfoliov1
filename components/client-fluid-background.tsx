@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import WebGLFluidEnhanced from "webgl-fluid-enhanced"
 
 interface ClientFluidBackgroundProps {
@@ -9,11 +9,12 @@ interface ClientFluidBackgroundProps {
 
 export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isInitialized, setIsInitialized] = useState(false)
   const fluidInstanceRef = useRef<any>(null)
+  const isInitializedRef = useRef<boolean>(false)
 
   useEffect(() => {
     if (!canvasRef.current || typeof window === "undefined") return
+    if (isInitializedRef.current) return // Prevent re-initialization
 
     // Make sure the canvas fills the screen
     const handleResize = () => {
@@ -60,7 +61,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
     try {
       // Initialize the WebGLFluidEnhanced with the 'new' keyword since it's a class constructor
       fluidInstanceRef.current = new WebGLFluidEnhanced(canvasRef.current, config)
-      setIsInitialized(true)
+      isInitializedRef.current = true
 
       // Expose the fluid instance to the parent component
       if (onInstanceReady && fluidInstanceRef.current) {
@@ -88,7 +89,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
 
     // Handle mouse movement to create splats
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isInitialized || !fluidInstanceRef.current || !fluidInstanceRef.current.splat) return
+      if (!isInitializedRef.current || !fluidInstanceRef.current || !fluidInstanceRef.current.splat) return
 
       // Calculate velocity based on mouse movement
       const x = e.clientX
@@ -121,7 +122,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       window.removeEventListener("mousemove", throttledMouseMove)
       window.removeEventListener("resize", handleResize)
     }
-  }, [onInstanceReady])
+  }, [onInstanceReady]) // Only depend on onInstanceReady
 
   // Helper function to get a random color from our palette
   const getRandomColorFromPalette = () => {
