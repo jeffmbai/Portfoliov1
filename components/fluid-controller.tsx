@@ -24,14 +24,14 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
   })
 
   const togglePause = () => {
-    if (fluidInstance) {
-      const paused = fluidInstance.togglePause()
-      setIsPaused(paused)
+    if (fluidInstance && typeof fluidInstance.paused !== "undefined") {
+      fluidInstance.paused = !fluidInstance.paused
+      setIsPaused(fluidInstance.paused)
     }
   }
 
   const createSplats = () => {
-    if (fluidInstance) {
+    if (fluidInstance && fluidInstance.splat) {
       // Create multiple splats at random positions
       for (let i = 0; i < 5; i++) {
         const x = Math.random() * window.innerWidth
@@ -49,8 +49,11 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
   }
 
   const downloadScreenshot = () => {
-    if (fluidInstance) {
-      fluidInstance.downloadScreenshot()
+    if (fluidInstance && fluidInstance.canvas) {
+      const link = document.createElement("a")
+      link.download = "fluid-screenshot.png"
+      link.href = fluidInstance.canvas.toDataURL()
+      link.click()
     }
   }
 
@@ -61,19 +64,29 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
       // Update the configuration
       switch (key) {
         case "curl":
-          fluidInstance.curl = value
+          if (typeof fluidInstance.config !== "undefined") {
+            fluidInstance.config.CURL = value
+          }
           break
         case "density":
-          fluidInstance.densityDissipation = value
+          if (typeof fluidInstance.config !== "undefined") {
+            fluidInstance.config.DENSITY_DISSIPATION = value
+          }
           break
         case "brightness":
-          fluidInstance.brightness = value
+          if (typeof fluidInstance.config !== "undefined") {
+            fluidInstance.config.BRIGHTNESS = value
+          }
           break
         case "bloomIntensity":
-          fluidInstance.bloomIntensity = value
+          if (typeof fluidInstance.config !== "undefined") {
+            fluidInstance.config.BLOOM_INTENSITY = value
+          }
           break
         case "sunrays":
-          fluidInstance.sunrays = value
+          if (typeof fluidInstance.config !== "undefined") {
+            fluidInstance.config.SUNRAYS = value
+          }
           break
       }
     }
