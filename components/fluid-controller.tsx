@@ -17,9 +17,8 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
   const [isPaused, setIsPaused] = useState(false)
   const [config, setConfig] = useState({
     curl: 30,
-    density: 0.98,
-    velocity: 0.99,
-    pressure: 20,
+    density: 0.97,
+    velocity: 0.98,
     bloom: true,
     sunrays: true,
   })
@@ -27,33 +26,25 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
   const togglePause = () => {
     if (!fluidInstance) return
 
-    try {
-      fluidInstance.PAUSED = !fluidInstance.PAUSED
-      setIsPaused(fluidInstance.PAUSED)
-    } catch (error) {
-      console.error("Error toggling pause:", error)
-    }
+    fluidInstance.PAUSED = !fluidInstance.PAUSED
+    setIsPaused(fluidInstance.PAUSED)
   }
 
   const createSplats = () => {
-    if (!fluidInstance || typeof fluidInstance.splat !== "function") return
+    if (!fluidInstance) return
 
-    try {
-      // Create multiple splats at random positions
-      for (let i = 0; i < 5; i++) {
-        const x = Math.random() * window.innerWidth
-        const y = Math.random() * window.innerHeight
-        const dx = (Math.random() - 0.5) * 10
-        const dy = (Math.random() - 0.5) * 10
-        const color = {
-          r: Math.random() * 0.5 + 0.5,
-          g: Math.random() * 0.5 + 0.5,
-          b: Math.random() * 0.5 + 0.5,
-        }
-        fluidInstance.splat(x, y, dx, dy, color)
+    // Create multiple splats at random positions
+    for (let i = 0; i < 5; i++) {
+      const x = Math.random() * window.innerWidth
+      const y = Math.random() * window.innerHeight
+      const dx = (Math.random() - 0.5) * 10
+      const dy = (Math.random() - 0.5) * 10
+      const color = {
+        r: Math.random() * 0.5 + 0.5,
+        g: Math.random() * 0.5 + 0.5,
+        b: Math.random() * 0.5 + 0.5,
       }
-    } catch (error) {
-      console.error("Error creating splats:", error)
+      fluidInstance.splat(x, y, dx, dy, color)
     }
   }
 
@@ -62,30 +53,23 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
 
     if (!fluidInstance) return
 
-    try {
-      // Update the configuration
-      switch (key) {
-        case "curl":
-          fluidInstance.CURL = value
-          break
-        case "density":
-          fluidInstance.DENSITY_DISSIPATION = value
-          break
-        case "velocity":
-          fluidInstance.VELOCITY_DISSIPATION = value
-          break
-        case "pressure":
-          fluidInstance.PRESSURE_ITERATIONS = value
-          break
-        case "bloom":
-          fluidInstance.BLOOM = value
-          break
-        case "sunrays":
-          fluidInstance.SUNRAYS = value
-          break
-      }
-    } catch (error) {
-      console.error("Error updating config:", error)
+    // Update the configuration
+    switch (key) {
+      case "curl":
+        fluidInstance.CURL = value
+        break
+      case "density":
+        fluidInstance.DENSITY_DISSIPATION = value
+        break
+      case "velocity":
+        fluidInstance.VELOCITY_DISSIPATION = value
+        break
+      case "bloom":
+        fluidInstance.BLOOM = value
+        break
+      case "sunrays":
+        fluidInstance.SUNRAYS = value
+        break
     }
   }
 
@@ -153,20 +137,6 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
                 max={1}
                 step={0.01}
                 onValueChange={(value) => updateConfig("velocity", value[0])}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <Label className="text-xs">Pressure Iterations</Label>
-                <span className="text-xs text-gray-400">{config.pressure}</span>
-              </div>
-              <Slider
-                value={[config.pressure]}
-                min={1}
-                max={50}
-                step={1}
-                onValueChange={(value) => updateConfig("pressure", value[0])}
               />
             </div>
 
