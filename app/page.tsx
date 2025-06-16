@@ -71,13 +71,21 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
+              {/* <Button
                 size="lg"
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none shadow-lg shadow-purple-900/20"
                 asChild
                 onClick={scrollToContact}
               >
                 Get in Touch
+              </Button> */}
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none shadow-lg shadow-purple-900/20"
+                onClick={scrollToContact}
+              >
+                Get in touch 
               </Button>
               <Button
                 size="lg"

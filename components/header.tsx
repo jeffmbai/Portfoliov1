@@ -62,8 +62,7 @@ export default function Header() {
                 {item.name === "Resume" ? (
                   <a
                     href={item.path}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    download="GeoffreyMbai_Resume.pdf"
                     className={cn(
                       "text-sm font-medium transition-colors hover:text-white relative group",
                       pathname === item.path ? "text-white" : "text-white/70",
@@ -148,8 +147,7 @@ export default function Header() {
                     <a
                       key={item.name}
                       href={item.path}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download="GeoffreyMbai_Resume.pdf"
                       className={cn(
                         "text-sm font-medium transition-colors hover:text-white/80 py-2",
                         pathname === item.path ? "text-white" : "text-white/60",
