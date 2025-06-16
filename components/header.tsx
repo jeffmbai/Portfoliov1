@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Github, Linkedin, Twitter } from "lucide-react"
+import { Menu, X, Github, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
@@ -12,7 +12,7 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "About", path: "/#about" },
   { name: "Projects", path: "/#projects" },
-  { name: "Resume", path: "/assets/GeoffreyMbai.pdf" },
+  { name: "Resume", path: "/api/download-resume" }, // Changed to API route
   { name: "Contact", path: "/#contact" },
 ]
 
@@ -29,6 +29,26 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const handleResumeDownload = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    try {
+      const response = await fetch('/api/download-resume')
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'GeoffreyMbai.pdf'
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        a.remove()
+      }
+    } catch (error) {
+      console.error('Error downloading resume:', error)
+    }
+  }
 
   return (
     <header
@@ -60,9 +80,8 @@ export default function Header() {
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
                 {item.name === "Resume" ? (
-                  <a
-                    href={item.path}
-                    download="GoffreyMbai.pdf"
+                  <button
+                    onClick={handleResumeDownload}
                     className={cn(
                       "text-sm font-medium transition-colors hover:text-white relative group",
                       pathname === item.path ? "text-white" : "text-white/70",
@@ -70,7 +89,7 @@ export default function Header() {
                   >
                     {item.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full" />
-                  </a>
+                  </button>
                 ) : (
                   <Link
                     href={item.path}
@@ -107,7 +126,6 @@ export default function Header() {
               <Linkedin className="h-5 w-5" />
               <span className="sr-only">LinkedIn</span>
             </Link>
-           
 
             <Button
               size="sm"
@@ -144,18 +162,16 @@ export default function Header() {
               <nav className="flex flex-col space-y-4">
                 {navItems.map((item) => (
                   item.name === "Resume" ? (
-                    <a
+                    <button
                       key={item.name}
-                      href={item.path}
-                      download="GoffreyMbai.pdf"
+                      onClick={handleResumeDownload}
                       className={cn(
-                        "text-sm font-medium transition-colors hover:text-white/80 py-2",
+                        "text-sm font-medium transition-colors hover:text-white/80 py-2 text-left",
                         pathname === item.path ? "text-white" : "text-white/60",
                       )}
-                      onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.name}
-                    </a>
+                    </button>
                   ) : (
                     <Link
                       key={item.name}
@@ -188,7 +204,6 @@ export default function Header() {
                   >
                     <Linkedin className="h-5 w-5" />
                   </Link>
-                 
                 </div>
 
                 <Button
