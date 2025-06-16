@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge"
 
 export default function Home() {
   const projectsRef = useRef<HTMLDivElement>(null)
+  const contactRef= useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -25,6 +26,11 @@ export default function Home() {
   const scrollToProjects = () => {
     projectsRef.current?.scrollIntoView({ behavior: "smooth" })
   }
+
+   const scrollToContact = () => {
+    contactRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
 
   return (
     <main className="relative min-h-screen" ref={containerRef}>
@@ -69,8 +75,9 @@ export default function Home() {
                 size="lg"
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none shadow-lg shadow-purple-900/20"
                 asChild
+                onClick={scrollToContact}
               >
-                <Link href="/contact">Get in Touch</Link>
+                Get in Touch
               </Button>
               <Button
                 size="lg"
@@ -132,8 +139,10 @@ export default function Home() {
         <ProjectsSection />
       </div>
 
-      {/* Contact Section */}
-      <ContactSection />
+      <div ref={contactRef}>
+        <ContactSection />
+      </div>
+      
     </main>
   )
 }

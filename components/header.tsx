@@ -12,7 +12,7 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "About", path: "/#about" },
   { name: "Projects", path: "/#projects" },
-  { name: "Resume", path: "/#resume" },
+  { name: "Resume", path: "/assets/GeoffreyMbai.pdf" },
   { name: "Contact", path: "/#contact" },
 ]
 
@@ -59,16 +59,31 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <Link
-                  href={item.path}
-                  className={cn(
-                    "text-sm font-medium transition-colors hover:text-white relative group",
-                    pathname === item.path ? "text-white" : "text-white/70",
-                  )}
-                >
-                  {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full" />
-                </Link>
+                {item.name === "Resume" ? (
+                  <a
+                    href={item.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-white relative group",
+                      pathname === item.path ? "text-white" : "text-white/70",
+                    )}
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full" />
+                  </a>
+                ) : (
+                  <Link
+                    href={item.path}
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-white relative group",
+                      pathname === item.path ? "text-white" : "text-white/70",
+                    )}
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                )}
               </motion.div>
             ))}
           </nav>
@@ -76,7 +91,7 @@ export default function Header() {
           {/* Social Links - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
             <Link
-              href="https://github.com"
+              href="https://github.com/jeffmbai/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/70 hover:text-white transition-colors"
@@ -85,7 +100,7 @@ export default function Header() {
               <span className="sr-only">GitHub</span>
             </Link>
             <Link
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/geoffreymbai/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/70 hover:text-white transition-colors"
@@ -93,15 +108,7 @@ export default function Header() {
               <Linkedin className="h-5 w-5" />
               <span className="sr-only">LinkedIn</span>
             </Link>
-            <Link
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/70 hover:text-white transition-colors"
-            >
-              <Twitter className="h-5 w-5" />
-              <span className="sr-only">Twitter</span>
-            </Link>
+           
 
             <Button
               size="sm"
@@ -137,17 +144,33 @@ export default function Header() {
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col space-y-4">
                 {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.path}
-                    className={cn(
-                      "text-sm font-medium transition-colors hover:text-white/80 py-2",
-                      pathname === item.path ? "text-white" : "text-white/60",
-                    )}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
+                  item.name === "Resume" ? (
+                    <a
+                      key={item.name}
+                      href={item.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "text-sm font-medium transition-colors hover:text-white/80 py-2",
+                        pathname === item.path ? "text-white" : "text-white/60",
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      href={item.path}
+                      className={cn(
+                        "text-sm font-medium transition-colors hover:text-white/80 py-2",
+                        pathname === item.path ? "text-white" : "text-white/60",
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  )
                 ))}
 
                 <div className="flex space-x-4 py-2">

@@ -21,7 +21,7 @@ export default function ClientFluidBackground({ onInstanceReady }: ClientFluidBa
       VELOCITY_DISSIPATION: 0.2,
       PRESSURE: 0.8,
       PRESSURE_ITERATIONS: 20,
-      CURL: 30,
+      CURL: 40,
       INITIAL: true,
       SPLAT_AMOUNT: 5,
       SPLAT_RADIUS: 0.25,
