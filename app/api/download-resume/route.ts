@@ -1,25 +1,22 @@
-import { NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+import { NextResponse } from "next/server"
+import fs from "fs"
+import path from "path"
+
+const RESUME_FILENAME = "GoffreyMbaiResume.pdf"
 
 export async function GET() {
-  // Path to your PDF file
-  const filePath = path.join(process.cwd(), 'app', 'assets', 'GeoffreyMbai.pdf')
-  
+  const filePath = path.join(process.cwd(), "app", "assets", RESUME_FILENAME)
+
   try {
-    // Read the file
     const fileBuffer = fs.readFileSync(filePath)
-    
-    // Create a response with the file
     const response = new NextResponse(fileBuffer)
-    
-    // Set headers for download
-    response.headers.set('Content-Type', 'application/pdf')
-    response.headers.set('Content-Disposition', 'attachment; filename="GeoffreyMbai_Resume.pdf"')
-    
+
+    response.headers.set("Content-Type", "application/pdf")
+    response.headers.set("Content-Disposition", `attachment; filename="${RESUME_FILENAME}"`)
+
     return response
   } catch (error) {
-    console.error('Error reading file:', error)
-    return new NextResponse('File not found', { status: 404 })
+    console.error("Error reading resume file:", error)
+    return new NextResponse("Resume file not found", { status: 404 })
   }
 }

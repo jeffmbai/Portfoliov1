@@ -1,17 +1,28 @@
 import type React from "react"
 import "@/app/globals.css"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
+import { DM_Sans, JetBrains_Mono } from "next/font/google"
 import ClientLayout from "./client-layout"
+import { personalInfo } from "@/lib/data"
 
-const inter = Inter({ subsets: ["latin"] })
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+})
 
 export const metadata: Metadata = {
-  title: "Software Engineer Portfolio",
-  description: "Personal portfolio showcasing frontend and mobile development expertise",
-  manifest: "/manifest.json",
-    generator: 'v0.dev'
+  title: `${personalInfo.name} | ${personalInfo.title}`,
+  description: personalInfo.summary,
+  openGraph: {
+    title: `${personalInfo.name} | ${personalInfo.title}`,
+    description: personalInfo.summary,
+    url: personalInfo.portfolio,
+  },
 }
 
 export default function RootLayout({
@@ -20,12 +31,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body className={`${inter.className} min-h-screen bg-black text-white`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <ClientLayout>{children}</ClientLayout>
-        </ThemeProvider>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body
+        className={`${dmSans.variable} ${jetbrains.variable} font-sans min-h-screen bg-background text-foreground`}
+        suppressHydrationWarning
+      >
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   )

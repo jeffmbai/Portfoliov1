@@ -2,51 +2,41 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Menu, X, Github, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
+import { personalInfo } from "@/lib/data"
+import { downloadResume, scrollToSection } from "@/lib/navigation"
 
 const navItems = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/#about" },
-  { name: "Projects", path: "/#projects" },
-  { name: "Resume", path: "/api/download-resume" }, // Changed to API route
-  { name: "Contact", path: "/#contact" },
+  { name: "About", id: "about" },
+  { name: "Experience", id: "experience" },
+  { name: "Skills", id: "skills" },
+  { name: "Projects", id: "projects" },
+  { name: "Contact", id: "contact" },
 ]
 
 export default function Header() {
-  const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-
+    const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleResumeDownload = async (e: React.MouseEvent) => {
-    e.preventDefault()
+  const handleNavClick = (id: string) => {
+    setMobileMenuOpen(false)
+    scrollToSection(id)
+  }
+
+  const handleResumeDownload = async () => {
     try {
-      const response = await fetch('/api/download-resume')
-      if (response.ok) {
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'GeoffreyMbai.pdf'
-        document.body.appendChild(a)
-        a.click()
-        window.URL.revokeObjectURL(url)
-        a.remove()
-      }
+      await downloadResume()
     } catch (error) {
-      console.error('Error downloading resume:', error)
+      console.error("Error downloading resume:", error)
     }
   }
 
@@ -54,168 +44,108 @@ export default function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-black/80 backdrop-blur-md py-2 shadow-lg shadow-black/10" : "bg-transparent py-4",
+        scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/40 py-2.5" : "bg-transparent py-3",
       )}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container max-w-6xl mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-white">
-            <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500"
-            >
-              Portfolio
-            </motion.span>
-          </Link>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="font-mono text-sm font-medium tracking-tight"
+          >
+            <span className="text-emerald-400">{"<"}</span>
+            <span className="text-foreground">{personalInfo.shortName.toLowerCase()}</span>
+            <span className="text-emerald-400">{"/>"}</span>
+          </button>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item, index) => (
-              <motion.div
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => (
+              <button
                 key={item.name}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
+                type="button"
+                onClick={() => handleNavClick(item.id)}
+                className="nav-link px-3 py-1.5 text-sm rounded-lg"
               >
-                {item.name === "Resume" ? (
-                  <button
-                    onClick={handleResumeDownload}
-                    className={cn(
-                      "text-sm font-medium transition-colors hover:text-white relative group",
-                      pathname === item.path ? "text-white" : "text-white/70",
-                    )}
-                  >
-                    {item.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full" />
-                  </button>
-                ) : (
-                  <Link
-                    href={item.path}
-                    className={cn(
-                      "text-sm font-medium transition-colors hover:text-white relative group",
-                      pathname === item.path ? "text-white" : "text-white/70",
-                    )}
-                  >
-                    {item.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                )}
-              </motion.div>
+                {item.name}
+              </button>
             ))}
+            <button
+              type="button"
+              onClick={handleResumeDownload}
+              className="nav-link px-3 py-1.5 text-sm rounded-lg"
+            >
+              Resume
+            </button>
           </nav>
 
-          {/* Social Links - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center gap-3">
             <Link
-              href="https://github.com/jeffmbai/"
+              href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/70 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-emerald-400 transition-colors"
             >
-              <Github className="h-5 w-5" />
-              <span className="sr-only">GitHub</span>
+              <Github className="h-4 w-4" />
             </Link>
             <Link
-              href="https://www.linkedin.com/in/geoffreymbai/"
+              href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/70 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-emerald-400 transition-colors"
             >
-              <Linkedin className="h-5 w-5" />
-              <span className="sr-only">LinkedIn</span>
+              <Linkedin className="h-4 w-4" />
             </Link>
-
             <Button
               size="sm"
-              className="ml-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none"
-              asChild
+              className="bg-emerald-600 hover:bg-emerald-500 text-white ml-1"
+              onClick={() => handleNavClick("contact")}
             >
-              <Link href="/#contact">Hire Me</Link>
+              Hire Me
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
+          <Button variant="ghost" size="icon" className="md:hidden hover:text-emerald-400" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-black/95 backdrop-blur-md border-t border-white/10"
+            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border/40"
           >
-            <div className="container mx-auto px-4 py-4">
-              <nav className="flex flex-col space-y-4">
-                {navItems.map((item) => (
-                  item.name === "Resume" ? (
-                    <button
-                      key={item.name}
-                      onClick={handleResumeDownload}
-                      className={cn(
-                        "text-sm font-medium transition-colors hover:text-white/80 py-2 text-left",
-                        pathname === item.path ? "text-white" : "text-white/60",
-                      )}
-                    >
-                      {item.name}
-                    </button>
-                  ) : (
-                    <Link
-                      key={item.name}
-                      href={item.path}
-                      className={cn(
-                        "text-sm font-medium transition-colors hover:text-white/80 py-2",
-                        pathname === item.path ? "text-white" : "text-white/60",
-                      )}
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  )
-                ))}
-
-                <div className="flex space-x-4 py-2">
-                  <Link
-                    href="https://github.com/jeffmbai/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    <Github className="h-5 w-5" />
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/in/geoffreymbai/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                  </Link>
-                </div>
-
-                <Button
-                  size="sm"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white w-full"
-                  asChild
-                  onClick={() => setMobileMenuOpen(false)}
+            <nav className="container max-w-6xl mx-auto px-4 py-3 flex flex-col gap-0.5">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() => handleNavClick(item.id)}
+                  className="nav-link py-2 text-sm text-left w-full rounded-lg px-2"
                 >
-                  <Link href="/#contact">Hire Me</Link>
-                </Button>
-              </nav>
-            </div>
+                  {item.name}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={handleResumeDownload}
+                className="nav-link py-2 text-sm text-left w-full rounded-lg px-2"
+              >
+                Resume
+              </button>
+              <div className="flex gap-4 pt-2 border-t border-border/40">
+                <Link href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-emerald-400 transition-colors">
+                  <Github className="h-5 w-5" />
+                </Link>
+                <Link href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-emerald-400 transition-colors">
+                  <Linkedin className="h-5 w-5" />
+                </Link>
+              </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

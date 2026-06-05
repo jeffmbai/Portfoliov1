@@ -1,26 +1,199 @@
-import type { Project } from "./types"
+import type { Experience, Project, SkillCategory } from "./types"
+
+export const personalInfo = {
+  name: "Goffrey Mbai",
+  shortName: "Goffrey",
+  title: "Fullstack Software Engineer",
+  email: "jeffkinuthia254@gmail.com",
+  phone: "+254710984312",
+  location: "Kenya",
+  portfolio: "https://jeffmbai.netlify.app/",
+  github: "https://github.com/jeffmbai",
+  linkedin: "https://www.linkedin.com/in/geoffreymbai/",
+  twitter: "https://x.com/prowebkenya",
+  summary:
+    "Full-Stack Software Engineer with 4+ years of experience building responsive web applications, cross-platform mobile apps, RESTful APIs, and cloud-based solutions. Skilled in software architecture, system integration, database design, CI/CD, and Agile development.",
+  yearsExperience: "4+",
+  stats: [
+    { label: "Years Experience", value: "4+" },
+    { label: "Projects Shipped", value: "25+" },
+    { label: "Technologies", value: "20+" },
+  ],
+}
+
+export const experienceData: Experience[] = [
+  {
+    company: "Turing",
+    role: "Software Developer",
+    location: "Remote",
+    period: "Aug 2025 – Present",
+    highlights: [
+      "Built frontend and backend for containerized web apps in AI agent workflows",
+      "Developed reusable UI components with performance optimizations and caching",
+      "Conducted UI/UX evaluations and end-to-end testing for quality assurance",
+      "Integrated third-party APIs and delivered technical documentation",
+    ],
+  },
+  {
+    company: "BusinessCloud Technologies",
+    role: "Software Engineer",
+    location: "Nairobi",
+    period: "Dec 2023 – Sep 2025",
+    highlights: [
+      "Developed full-stack applications using C#, .NET, and React",
+      "Implemented RESTful APIs and CI/CD pipelines for automated deployments",
+      "Built cross-platform mobile apps with React Native and Expo",
+      "Integrated Microsoft Identity for secure authentication and authorization",
+    ],
+  },
+  {
+    company: "Siweb Technologies",
+    role: "Software Engineer",
+    location: "Nairobi",
+    period: "Oct 2022 – Nov 2023",
+    highlights: [
+      "Designed full-stack apps with Laravel, CodeIgniter, Flask, and React",
+      "Built responsive UIs and RESTful API integrations",
+      "Developed server-side logic, database schemas, and complex queries",
+    ],
+  },
+  {
+    company: "iosoft technologies",
+    role: "Junior Software Engineer",
+    location: "Nairobi",
+    period: "Jan 2022 – Sep 2022",
+    highlights: [
+      "Maintained web apps using PHP, CodeIgniter, Flask, React, and MSSQL",
+      "Collaborated with teams to translate user needs into technical specs",
+      "Customized and configured CMS platforms including WordPress",
+    ],
+  },
+]
+
+export const skillsData: SkillCategory[] = [
+  {
+    name: "Frontend",
+    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "JavaScript"],
+  },
+  {
+    name: "Mobile",
+    skills: ["React Native", "Expo", "Mobile UI/UX"],
+  },
+  {
+    name: "Backend",
+    skills: ["C#", ".NET", "Flask", "FastAPI", "RESTful APIs"],
+  },
+  {
+    name: "Cloud & DevOps",
+    skills: ["Azure", "Docker", "Kubernetes", "Firebase", "CI/CD"],
+  },
+  {
+    name: "Databases",
+    skills: ["PostgreSQL", "MySQL", "SQLAlchemy", "MongoDB", "MSSQL"],
+  },
+]
 
 export const projectsData: Project[] = [
   {
+    title: "Annote",
+    description:
+      "Modern React Native notes app with Supabase auth, offline SQLite storage, Zustand state management, and automatic sync when connectivity is restored.",
+    category: "Open Source",
+    technologies: ["React Native", "TypeScript", "Supabase", "SQLite", "Zustand"],
+    githubLink: "https://github.com/jeffmbai/Annote",
+    featured: true,
+  },
+  {
+    title: "Spotter Flights",
+    description:
+      "Flight tracking and discovery application built with TypeScript, enabling users to search, monitor, and explore flight information in real time.",
+    category: "WebApp",
+    technologies: ["TypeScript", "React", "Next.js", "Tailwind"],
+    githubLink: "https://github.com/jeffmbai/spotterflights",
+    featured: true,
+  },
+  {
+    title: "CollabExercises",
+    description:
+      "Collaborative exercise platform for team-based fitness challenges, workout tracking, and shared progress monitoring.",
+    category: "Open Source",
+    technologies: ["React", "TypeScript", "Node.js"],
+    githubLink: "https://github.com/jeffmbai/CollabExercises",
+    featured: true,
+  },
+  {
+    title: "Triple2S",
+    description:
+      "Full-stack TypeScript application with modern architecture, responsive design, and scalable backend integration.",
+    category: "WebApp",
+    technologies: ["TypeScript", "React", "Node.js"],
+    githubLink: "https://github.com/jeffmbai/triple2s",
+    featured: true,
+  },
+  {
+    title: "Expo Firebase Auth",
+    description:
+      "Production-ready starter with Firebase setup, TypeScript, Expo Router, tab and drawer navigation, and email verification for registration and login flows.",
+    category: "Open Source",
+    technologies: ["React Native", "Expo", "Firebase", "TypeScript"],
+    githubLink: "https://github.com/jeffmbai/expo-firebase-auth",
+    featured: true,
+  },
+  {
+    title: "Digital Asset Wallet",
+    description:
+      "React Native digital asset wallet for securely storing, buying, selling, and earning digital tokens with an intuitive mobile experience.",
+    category: "Mobile",
+    technologies: ["React Native", "TypeScript", "Firebase"],
+    githubLink: "https://github.com/jeffmbai/Digital-Asset",
+    featured: true,
+  },
+  {
+    title: "React Native Fitness App",
+    description:
+      "Cross-platform fitness tracking mobile app with workout logging, progress charts, and goal-setting features.",
+    category: "Mobile",
+    technologies: ["React Native", "JavaScript", "Expo"],
+    githubLink: "https://github.com/jeffmbai/react-native-fitness-app",
+  },
+  {
+    title: "DT Block Explorer",
+    description:
+      "Blockchain block explorer with a React and Ant Design frontend using Apollo Client for GraphQL, paired with a TypeScript backend server.",
+    category: "WebApp",
+    technologies: ["React", "TypeScript", "GraphQL", "Ant Design"],
+    githubLink: "https://github.com/jeffmbai/dt-block-explorer-public-client",
+    link: "https://github.com/jeffmbai/dt-block-explorer-public-client",
+  },
+  {
+    title: "Bitcoin App",
+    description:
+      "React Native mobile app integrating Firebase and the Bitcoin.com API for real-time cryptocurrency tracking and wallet management.",
+    category: "Mobile",
+    technologies: ["React Native", "TypeScript", "Firebase"],
+    githubLink: "https://github.com/jeffmbai/Bitcoin-APP",
+  },
+  {
+    title: "CoinCurios",
+    description:
+      "Financial learning app for children ages 10+, making money management fun through colorful interfaces, engaging activities, and kid-friendly content.",
+    category: "Mobile",
+    technologies: ["React Native", "Tailwind", "TypeScript", "Firebase", "Expo"],
+    link: "https://apps.apple.com/us/app/coin-curios/id6745624359",
+    featured: true,
+  },
+  {
     title: "iPAS",
     description:
-      "Cross-platform mobile application for pensions management, remittance and monitoring with interactive UI where users can follow through their pension",
+      "Cross-platform mobile app for pension management, remittance, and monitoring with an interactive UI for tracking pension progress.",
     category: "Mobile",
     technologies: ["React Native", "MSSQL", "C#", ".NET"],
     link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.ipas",
   },
   {
-    title: "CoinCurios",
-    description:
-      "Coin Curios transforms financial learning into an exciting adventure! Designed specifically for children ages 10 and up, our app makes money management fun through colorful interfaces, engaging activities, and kid-friendly content",
-    category: "Mobile",
-    technologies: ["React Native", "Tailwind", "TypeScript", "Firebase", "Expo"],
-    link: "https://apps.apple.com/us/app/coin-curios/id6745624359",
-  },
-  {
     title: "eMEL",
     description:
-      "Mobile Application for the project monitoring and evaluation software. Developed using React Native, Microsoft identity and Expo. We extended the web functionalities to the mobile application",
+      "Mobile app for project monitoring and evaluation software, extending web functionalities to mobile with React Native, Microsoft Identity, and Expo.",
     category: "Mobile",
     technologies: ["React Native", "Firebase", "Azure AD", "Expo"],
     link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.emel",
@@ -28,7 +201,7 @@ export const projectsData: Project[] = [
   {
     title: "TopMarine",
     description:
-      "Top Marine is mobile app developed using React Native, C#, Expo and Microsoft identity. It is a shipping logistics tracking application where shippers can track their shipment logistics from where they're boarded to offloading.",
+      "Shipping logistics tracking app where shippers monitor shipment logistics from boarding to offloading, built with React Native and Microsoft Identity.",
     category: "Mobile",
     technologies: ["React Native", "Firebase", ".NET", "C#", "Expo"],
     link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.icoms",
@@ -36,7 +209,7 @@ export const projectsData: Project[] = [
   {
     title: "iBusiness",
     description:
-      "IBusiness is mobile appliation for the accounting saas to enhance ease of use. We leveraged on React Native, Microsoft Identity, Expo and Firebase to integrate the key accounting saas processes. The app was integrated with offline awareness to enable all time access",
+      "Mobile accounting SaaS companion with offline awareness for all-time access, integrated with Microsoft Identity, Expo, and Firebase.",
     category: "Mobile",
     technologies: ["React Native", "Firebase", "Azure", "Expo", "C#", ".NET"],
     link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.ibusiness",
@@ -44,89 +217,89 @@ export const projectsData: Project[] = [
   {
     title: "iComms",
     description:
-      "IComms is an mobile application geared towards enhancing business and county administrative operations for key business and government agencies.",
+      "Mobile application enhancing business and county administrative operations for key business and government agencies.",
     category: "Mobile",
     technologies: ["React Native", "Firebase", ".NET", "C#", "Expo"],
     link: "https://play.google.com/store/apps/details?id=com.ibusinessclouds.topmarine",
   },
- 
   {
     title: "Infinity",
     description:
-      "This project is a web-based automated financial tool designed to help investors using Trading 212 make smarter investment decisions, particularly around portfolio analysis and dividend reinvestment. The system scans the user's portfolio and the wider market to identify undervalued stocks with strong fundamentals, then recommends optimal reinvestment strategies for dividends received.",
+      "Automated financial tool for Trading 212 investors — scans portfolios and markets to identify undervalued stocks and recommend optimal dividend reinvestment strategies.",
     category: "WebApp",
-    technologies: ["React", "NextJS", "Tailwind", "MongoDB", "CI/CD"],
+    technologies: ["React", "Next.js", "Tailwind", "MongoDB", "CI/CD"],
     link: "https://infinity-orpin.vercel.app/",
+    featured: true,
   },
   {
     title: "Project Management Platform",
     description:
-      "Developed a comprehensive Project Monitoring and Evaluation software using C#, .NET, React, MSSQL Server, Docker, Azure, and Git. This solution facilitated real-time tracking of project activities, advanced data visualization for better insights",
+      "Comprehensive Project Monitoring and Evaluation software with real-time activity tracking and advanced data visualization for better insights.",
     category: "WebApp",
-    technologies: ["React", ".Net", "C#", "Express", "MsSQL", "Docker", "Azure", "DevOps"],
+    technologies: ["React", ".NET", "C#", "MSSQL", "Docker", "Azure"],
     link: "https://emel.cloudmlapps.com/",
   },
   {
-    title: "Saas Accounting Software",
+    title: "SaaS Accounting Software",
     description:
-      "Developed saas accounting software which included key business processes from procurement, inventory management, order to cash and general accounting principles. Leveraged on C#, React, Docker, Azure, Microsoft Identity and .NET",
+      "Full accounting SaaS covering procurement, inventory, order-to-cash, and general accounting with C#, React, Docker, Azure, and Microsoft Identity.",
     category: "WebApp",
-    technologies: ["React", ".Net", "C#", "Express", "MsSQL", "Docker", "Azure", "DevOps"],
+    technologies: ["React", ".NET", "C#", "MSSQL", "Docker", "Azure"],
     link: "https://app.cloudmlapps.com/",
   },
   {
-    title: "Top Marine",
+    title: "Top Marine Web",
     description:
-      "Developed a comprehensive shipping and logistics shipment software using C#, .NET, React, MsSQL, Docker, Azure, and DevOps. The web app allows users to track their shipments from when they are loaded to when they're offloaded.",
+      "Comprehensive shipping and logistics platform allowing users to track shipments from loading to offloading with real-time updates.",
     category: "WebApp",
-    technologies: ["React", ".Net", "C#", "Express", "MsSQL", "Docker", "Azure", "DevOps"],
+    technologies: ["React", ".NET", "C#", "MSSQL", "Docker", "Azure"],
     link: "https://topmarine.cloudmlapps.com/",
   },
   {
     title: "Digital Scanner",
     description:
-      "Developed a Pneumonia Detection Web Application utilizing Flask, Python, Git, and React. Integrated machine learning algorithms to accurately identify pneumonia from chest X-ray images.",
+      "Pneumonia detection web application using Flask and machine learning to identify pneumonia from chest X-ray images with high accuracy.",
     category: "WebApp",
-    technologies: ["React", "Flask", "Firebase", "Git", "Python", "Tensorflow"],
-    link: "#",
+    technologies: ["React", "Flask", "Python", "TensorFlow"],
   },
   {
     title: "Tivui",
     description:
-      "Developed a robust Multivendor E-commerce platform tailored for the sale of furniture and home decor items. Leveraged Flask, React and MySQL to provide seamless functionality for both buyers and sellers",
+      "Multivendor e-commerce platform for furniture and home decor, providing seamless functionality for both buyers and sellers.",
     category: "WebApp",
-    technologies: ["React", "Flask", "Firebase", "MongoDB"],
+    technologies: ["React", "Flask", "MySQL"],
     link: "https://tivui.co.ke/",
   },
   {
     title: "Property Control 360",
     description:
-      "Property Control 360 is a property management system that allows property owners to manage their properties, tenants, and payments. The system is integrated with MPESA payment and tenants can pay rent online.",
-    category: "Website",
-    technologies: ["WordPress", "MySQL", "PHP"],
+      "Property management platform migrated from WordPress to a modern stack. Tenants pay rent online via MPESA while owners manage properties, tenants, and payments.",
+    category: "WebApp",
+    technologies: ["Next.js", "FastAPI", "Docker", "PostgreSQL"],
     link: "http://propertycontrol360.com/",
   },
   {
     title: "The Covenant of Grace",
     description:
-      "The Covenant of Grace is a church website that allows the church to post sermons, events, and blogs. The website is integrated with payment and church members can contribute donations for church projects.",
-    category: "Website",
-    technologies: ["WordPress", "MySQL", "PHP"],
+      "Church platform rebuilt with Next.js and FastAPI for sermons, events, blogs, and integrated donation payments for church projects.",
+    category: "WebApp",
+    technologies: ["Next.js", "FastAPI", "Docker", "PostgreSQL"],
     link: "https://thecovenantofgrace.org/",
   },
   {
     title: "Esco Bar Mobile Catering",
-    description: "Website for Esco Bar for ordering of mobile bar catering services for their events",
-    category: "Website",
-    technologies: ["WordPress", "MySQL", "PHP"],
+    description:
+      "Mobile bar catering booking platform migrated to Next.js with a FastAPI backend and Dockerized deployment for event service orders across the UK.",
+    category: "WebApp",
+    technologies: ["Next.js", "FastAPI", "Docker", "PostgreSQL"],
     link: "https://esco-bar.co.uk/",
   },
   {
-    title: "Centre for Suicide Research and Prevention",
+    title: "Centre for Suicide Research",
     description:
-      "Website to help victims of suicide to get help, prevent recurring suicidal thoughts and organize events to create awareness",
-    category: "Website",
-    technologies: ["WordPress", "MySQL", "PHP"],
+      "Support and awareness platform helping victims access help, prevent recurring suicidal thoughts, and organize community events — rebuilt on Next.js and FastAPI.",
+    category: "WebApp",
+    technologies: ["Next.js", "FastAPI", "Docker", "PostgreSQL"],
     link: "https://csricentre.org/",
   },
 ]

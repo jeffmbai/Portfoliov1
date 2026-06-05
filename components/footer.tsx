@@ -1,57 +1,54 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail, Twitter } from "lucide-react"
+import { Github, Linkedin, Mail } from "lucide-react"
+import { personalInfo } from "@/lib/data"
 
 export default function Footer() {
   return (
-    <footer className="bg-black/80 border-t border-white/10 py-12">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-6 md:mb-0">
-            <Link href="/" className="text-xl font-bold text-white">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">
-                Portfolio
-              </span>
+    <footer className="border-t border-border/40 py-10 px-4 md:px-6">
+      <div className="container max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="text-center md:text-left">
+            <Link href="/" className="font-mono text-sm">
+              <span className="text-emerald-400">{"<"}</span>
+              {personalInfo.shortName.toLowerCase()}
+              <span className="text-emerald-400">{"/>"}</span>
             </Link>
-            <p className="mt-2 text-sm text-gray-400">Frontend & Mobile Developer</p>
+            <p className="mt-1 text-sm text-muted-foreground">{personalInfo.title}</p>
           </div>
 
-          <div className="flex space-x-6">
+          <div className="flex gap-4">
             <Link
-              href="https://github.com"
+              href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-emerald-400 transition-colors"
+              aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
-              <span className="sr-only">GitHub</span>
             </Link>
             <Link
-              href="https://linkedin.com"
+              href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-emerald-400 transition-colors"
+              aria-label="LinkedIn"
             >
               <Linkedin className="h-5 w-5" />
-              <span className="sr-only">LinkedIn</span>
             </Link>
             <Link
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              href={`mailto:${personalInfo.email}`}
+              className="text-muted-foreground hover:text-emerald-400 transition-colors"
+              aria-label="Email"
             >
-              <Twitter className="h-5 w-5" />
-              <span className="sr-only">Twitter</span>
-            </Link>
-            <Link href="mailto:contact@example.com" className="text-gray-400 hover:text-white transition-colors">
               <Mail className="h-5 w-5" />
-              <span className="sr-only">Email</span>
             </Link>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/10 text-center text-sm text-gray-400">
-          <p>© {new Date().getFullYear()} All rights reserved.</p>
+        <div className="mt-8 pt-6 border-t border-border/30 text-center text-sm text-muted-foreground">
+          <p suppressHydrationWarning>
+            © {new Date().getFullYear()} {personalInfo.name}. Built with Next.js & Tailwind CSS.
+          </p>
         </div>
       </div>
     </footer>

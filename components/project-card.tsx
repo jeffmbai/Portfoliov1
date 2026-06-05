@@ -1,11 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { ExternalLink, Github, Smartphone, Globe, Code } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+import { ExternalLink, Github, Smartphone, Globe, Code, Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { Project } from "@/lib/types"
@@ -14,86 +10,74 @@ interface ProjectCardProps {
   project: Project
 }
 
+const categoryConfig = {
+  Mobile: { icon: Smartphone, color: "text-teal-400", bg: "bg-teal-500/10 border-teal-500/20" },
+  WebApp: { icon: Code, color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+  Website: { icon: Globe, color: "text-sky-400", bg: "bg-sky-500/10 border-sky-500/20" },
+  "Open Source": { icon: Sparkles, color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
+}
+
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  // Generate a query for the placeholder image based on the project title and category
-  const imageQuery = `${project.title} ${project.category} app screenshot`
-
-  // Determine icon based on category
-  const getCategoryIcon = () => {
-    switch (project.category.toLowerCase()) {
-      case "mobile":
-        return <Smartphone className="h-4 w-4 mr-1" />
-      case "webapp":
-        return <Code className="h-4 w-4 mr-1" />
-      case "website":
-        return <Globe className="h-4 w-4 mr-1" />
-      default:
-        return null
-    }
-  }
+  const config = categoryConfig[project.category]
+  const CategoryIcon = config.icon
 
   return (
-    <Card
-      className="overflow-hidden border-gray-800 hover:border-purple-500/50 transition-all duration-300 h-full flex flex-col bg-gray-900/50 backdrop-blur-sm"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative h-48 w-full overflow-hidden">
-        <Image
-          src={`/placeholder.svg?height=400&width=600&query=${imageQuery}`}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500"
-          style={{
-            transform: isHovered ? "scale(1.05)" : "scale(1)",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-        <div className="absolute bottom-4 left-4 flex items-center">
-          <Badge variant="outline" className="bg-black/70 border-gray-700 text-white flex items-center">
-            {getCategoryIcon()}
-            {project.category}
-          </Badge>
-        </div>
+    <article className="glass-card p-6 h-full flex flex-col group hover:border-emerald-500/25 transition-all duration-300">
+      <div className="flex items-start justify-between mb-4">
+        <Badge variant="outline" className={`${config.bg} ${config.color} border flex items-center gap-1`}>
+          <CategoryIcon className="h-3 w-3" />
+          {project.category}
+        </Badge>
+        {project.featured && (
+          <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/80">Featured</span>
+        )}
       </div>
 
-      <CardContent className="p-6 flex-grow flex flex-col">
-        <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-        <p className="text-gray-400 text-sm mb-4 flex-grow line-clamp-3">{project.description}</p>
+      <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-300 transition-colors">{project.title}</h3>
+      <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-grow line-clamp-4">
+        {project.description}
+      </p>
 
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.technologies.map((tech) => (
-            <Badge key={tech} variant="secondary" className="bg-gray-800/70 text-gray-300 border border-gray-700">
-              {tech}
-            </Badge>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-1.5 mb-5">
+        {project.technologies.slice(0, 4).map((tech) => (
+          <span key={tech} className="text-xs px-2 py-0.5 rounded-md bg-secondary/60 text-muted-foreground">
+            {tech}
+          </span>
+        ))}
+        {project.technologies.length > 4 && (
+          <span className="text-xs px-2 py-0.5 rounded-md bg-secondary/60 text-muted-foreground">
+            +{project.technologies.length - 4}
+          </span>
+        )}
+      </div>
 
-        <div className="flex justify-between items-center mt-auto">
-          {project.link && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-gray-700 hover:border-purple-500/50 bg-black/30 hover:bg-black/50"
-              asChild
-            >
-              <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="h-4 w-4 mr-2" /> View Project
-              </Link>
-            </Button>
-          )}
-
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: isHovered ? 1 : 0 }} transition={{ duration: 0.3 }}>
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white" asChild>
-              <Link href="#" target="_blank" rel="noopener noreferrer">
-                <Github className="h-5 w-5" />
-              </Link>
-            </Button>
-          </motion.div>
-        </div>
-      </CardContent>
-    </Card>
+      <div className="flex gap-2 mt-auto">
+        {project.link && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1 border-border/60 text-foreground hover:border-emerald-500/40 hover:bg-secondary hover:text-emerald-400 text-xs"
+            asChild
+          >
+            <Link href={project.link} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+              Live Demo
+            </Link>
+          </Button>
+        )}
+        {project.githubLink && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-border/60 text-foreground hover:border-emerald-500/40 hover:bg-secondary hover:text-emerald-400"
+            asChild
+          >
+            <Link href={project.githubLink} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub`}>
+              <Github className="h-4 w-4" />
+            </Link>
+          </Button>
+        )}
+      </div>
+    </article>
   )
 }

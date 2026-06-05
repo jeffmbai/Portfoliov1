@@ -1,53 +1,45 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { projectsData } from "@/lib/data"
 import ProjectCard from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import type { Project } from "@/lib/types"
 
-const categories = ["All", "Mobile", "WebApp", "Website"]
+const categories = ["All", "Featured", "Open Source", "Mobile", "WebApp"] as const
+
+function filterProjects(category: string): Project[] {
+  if (category === "All") return projectsData
+  if (category === "Featured") return projectsData.filter((p) => p.featured)
+  return projectsData.filter((p) => p.category === category)
+}
 
 export default function ProjectsSection() {
-  const [activeCategory, setActiveCategory] = useState("All")
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-
-  const filteredProjects =
-    activeCategory === "All"
-      ? projectsData
-      : projectsData.filter((project) => project.category.toLowerCase() === activeCategory.toLowerCase())
-
-  const scroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const { current } = scrollContainerRef
-      const scrollAmount = direction === "left" ? -current.clientWidth : current.clientWidth
-      current.scrollBy({ left: scrollAmount, behavior: "smooth" })
-    }
-  }
+  const [activeCategory, setActiveCategory] = useState<string>("Featured")
+  const filteredProjects = filterProjects(activeCategory)
 
   return (
-    <section id="projects" className="py-4 relative z-10">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+    <section id="projects" className="section-spacing">
+      <div className="container max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="section-header"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">My Projects</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto mb-8"></div>
-          <p className="max-w-2xl mx-auto text-gray-300 text-lg">
-            Explore my portfolio of mobile and web applications, showcasing my expertise in frontend development, API
-            integration, and cloud services.
+          <p className="section-label mb-3">Portfolio</p>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            Selected <span className="text-emerald-400">projects</span>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl">
+            From open-source tools on GitHub to production mobile apps and enterprise web platforms.
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <div className="flex flex-wrap gap-2 mb-6">
           {categories.map((category) => (
             <Button
               key={category}
@@ -55,10 +47,10 @@ export default function ProjectsSection() {
               size="sm"
               onClick={() => setActiveCategory(category)}
               className={cn(
-                "border-gray-700 hover:border-purple-500/50 transition-all duration-300 backdrop-blur-sm",
+                "rounded-full border-border/60 transition-all",
                 activeCategory === category
-                  ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-purple-500/50 text-white"
-                  : "bg-transparent text-gray-400 hover:text-white",
+                  ? "bg-emerald-500/10 border-emerald-500/40 text-emerald-300"
+                  : "bg-transparent text-muted-foreground hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-secondary/70",
               )}
             >
               {category}
@@ -66,58 +58,26 @@ export default function ProjectsSection() {
           ))}
         </div>
 
-        <div className="relative">
-          <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-10 hidden md:block">
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full bg-black/50 border-gray-700 hover:bg-black/80 hover:border-purple-500/50 backdrop-blur-sm"
-              onClick={() => scroll("left")}
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-          </div>
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3, delay: index * 0.04 }}
+              >
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
-          <div
-            ref={scrollContainerRef}
-            className="flex overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            <div className="flex gap-6 min-w-max px-4">
-              <AnimatePresence mode="wait">
-                {filteredProjects.map((project, index) => (
-                  <motion.div
-                    key={project.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="w-[320px] snap-start"
-                  >
-                    <ProjectCard project={project} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          </div>
-
-          <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 z-10 hidden md:block">
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full bg-black/50 border-gray-700 hover:bg-black/80 hover:border-purple-500/50 backdrop-blur-sm"
-              onClick={() => scroll("right")}
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-
-        <style jsx global>{`
-          .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+        {filteredProjects.length === 0 && (
+          <p className="text-center text-muted-foreground py-12">No projects in this category.</p>
+        )}
       </div>
     </section>
   )
