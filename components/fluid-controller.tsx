@@ -32,7 +32,7 @@ export default function FluidController({ fluidInstance }: FluidControllerProps)
 
   const createSplats = () => {
     if (fluidInstance) {
-      // Create multiple splats at random positions
+
       for (let i = 0; i < 5; i++) {
         const x = Math.random() * window.innerWidth
         const y = Math.random() * window.innerHeight
