@@ -47,15 +47,7 @@ export default function ContactSection() {
       href: `tel:${personalInfo.phone}`,
       color: "text-teal-400",
       bg: "bg-teal-500/10",
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: personalInfo.location,
-      href: undefined,
-      color: "text-amber-400",
-      bg: "bg-amber-500/10",
-    },
+    }
   ]
 
   return (
