@@ -48,10 +48,7 @@ export default function HeroSection({ onViewProjects, onContact }: HeroSectionPr
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground mb-6">
-            <span className="flex items-center gap-1.5">
-              <MapPin className="h-4 w-4 text-emerald-400" />
-              {personalInfo.location}
-            </span>
+
             <span className="hidden sm:inline text-border">|</span>
             <a
               href={`mailto:${personalInfo.email}`}
