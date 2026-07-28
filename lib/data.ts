@@ -25,7 +25,7 @@ export const experienceData: Experience[] = [
   {
     company: "Turing",
     role: "Software Developer",
-    location: "Remote",
+    location: "San Francisco (Remote)",
     period: "Aug 2025 – Present",
     highlights: [
       "Built frontend and backend for containerized web apps in AI agent workflows",
